@@ -6,6 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9BE165D42DFF62DC00F98583 /* XCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE165D32DFF62DC00F98583 /* XCoordinator */; };
+		9BE1674C2E00122D00F98583 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE1674B2E00122D00F98583 /* SnapKit */; };
+		9BE167502E0015A200F98583 /* ApphudSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE1674F2E0015A200F98583 /* ApphudSDK */; };
+		9BE167532E00167B00F98583 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE167522E00167B00F98583 /* AppsFlyerLib */; };
+		9BE167562E0017A500F98583 /* AmplitudeSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE167552E0017A500F98583 /* AmplitudeSwift */; };
+		9BE1675B2E001E1B00F98583 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE1675A2E001E1B00F98583 /* FirebaseAnalytics */; };
+		9BE1675D2E001E1B00F98583 /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE1675C2E001E1B00F98583 /* FirebaseAnalyticsCore */; };
+		9BE1675F2E001E1B00F98583 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE1675E2E001E1B00F98583 /* FirebaseAnalyticsOnDeviceConversion */; };
+		9BE167612E001E1B00F98583 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE167602E001E1B00F98583 /* FirebaseCore */; };
+		9BE167632E001E1B00F98583 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE167622E001E1B00F98583 /* FirebaseCrashlytics */; };
+		9BE167652E001E1B00F98583 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE167642E001E1B00F98583 /* FirebaseDatabase */; };
+		9BE167672E001E1B00F98583 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE167662E001E1B00F98583 /* FirebaseMessaging */; };
+		9BE167692E001E1B00F98583 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE167682E001E1B00F98583 /* FirebaseRemoteConfig */; };
+		9BE1676B2E001E1B00F98583 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE1676A2E001E1B00F98583 /* FirebaseStorage */; };
+		9BE16A682E00609200F98583 /* SPAlert in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE16A672E00609200F98583 /* SPAlert */; };
+		9BE16A962E006ABF00F98583 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE16A952E006ABF00F98583 /* Lottie */; };
+		9BE16A992E006DFE00F98583 /* DeviceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE16A982E006DFE00F98583 /* DeviceKit */; };
+		9BE16A9C2E006EFB00F98583 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE16A9B2E006EFB00F98583 /* SkeletonView */; };
+		9BE16AA52E008E4400F98583 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE16AA42E008E4400F98583 /* KeychainSwift */; };
+		9BE16AAE2E0307E300F98583 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE16AAD2E0307E300F98583 /* Moya */; };
+		9BE16AC62E03093B00F98583 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 9BE16AC52E03093B00F98583 /* FirebaseAppCheck */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		9BE165B52DFF3A9800F98583 /* foldlybrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = foldlybrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +60,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BE167672E001E1B00F98583 /* FirebaseMessaging in Frameworks */,
+				9BE167502E0015A200F98583 /* ApphudSDK in Frameworks */,
+				9BE167532E00167B00F98583 /* AppsFlyerLib in Frameworks */,
+				9BE1675B2E001E1B00F98583 /* FirebaseAnalytics in Frameworks */,
+				9BE16AC62E03093B00F98583 /* FirebaseAppCheck in Frameworks */,
+				9BE16AA52E008E4400F98583 /* KeychainSwift in Frameworks */,
+				9BE16A992E006DFE00F98583 /* DeviceKit in Frameworks */,
+				9BE165D42DFF62DC00F98583 /* XCoordinator in Frameworks */,
+				9BE167562E0017A500F98583 /* AmplitudeSwift in Frameworks */,
+				9BE16A682E00609200F98583 /* SPAlert in Frameworks */,
+				9BE16A962E006ABF00F98583 /* Lottie in Frameworks */,
+				9BE1675D2E001E1B00F98583 /* FirebaseAnalyticsCore in Frameworks */,
+				9BE1674C2E00122D00F98583 /* SnapKit in Frameworks */,
+				9BE167632E001E1B00F98583 /* FirebaseCrashlytics in Frameworks */,
+				9BE167652E001E1B00F98583 /* FirebaseDatabase in Frameworks */,
+				9BE167692E001E1B00F98583 /* FirebaseRemoteConfig in Frameworks */,
+				9BE1676B2E001E1B00F98583 /* FirebaseStorage in Frameworks */,
+				9BE167612E001E1B00F98583 /* FirebaseCore in Frameworks */,
+				9BE16A9C2E006EFB00F98583 /* SkeletonView in Frameworks */,
+				9BE16AAE2E0307E300F98583 /* Moya in Frameworks */,
+				9BE1675F2E001E1B00F98583 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +123,27 @@
 			);
 			name = foldlybrowser;
 			packageProductDependencies = (
+				9BE165D32DFF62DC00F98583 /* XCoordinator */,
+				9BE1674B2E00122D00F98583 /* SnapKit */,
+				9BE1674F2E0015A200F98583 /* ApphudSDK */,
+				9BE167522E00167B00F98583 /* AppsFlyerLib */,
+				9BE167552E0017A500F98583 /* AmplitudeSwift */,
+				9BE1675A2E001E1B00F98583 /* FirebaseAnalytics */,
+				9BE1675C2E001E1B00F98583 /* FirebaseAnalyticsCore */,
+				9BE1675E2E001E1B00F98583 /* FirebaseAnalyticsOnDeviceConversion */,
+				9BE167602E001E1B00F98583 /* FirebaseCore */,
+				9BE167622E001E1B00F98583 /* FirebaseCrashlytics */,
+				9BE167642E001E1B00F98583 /* FirebaseDatabase */,
+				9BE167662E001E1B00F98583 /* FirebaseMessaging */,
+				9BE167682E001E1B00F98583 /* FirebaseRemoteConfig */,
+				9BE1676A2E001E1B00F98583 /* FirebaseStorage */,
+				9BE16A672E00609200F98583 /* SPAlert */,
+				9BE16A952E006ABF00F98583 /* Lottie */,
+				9BE16A982E006DFE00F98583 /* DeviceKit */,
+				9BE16A9B2E006EFB00F98583 /* SkeletonView */,
+				9BE16AA42E008E4400F98583 /* KeychainSwift */,
+				9BE16AAD2E0307E300F98583 /* Moya */,
+				9BE16AC52E03093B00F98583 /* FirebaseAppCheck */,
 			);
 			productName = foldlybrowser;
 			productReference = 9BE165B52DFF3A9800F98583 /* foldlybrowser.app */;
@@ -107,6 +173,20 @@
 			);
 			mainGroup = 9BE165AC2DFF3A9800F98583;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9BE165D22DFF62DC00F98583 /* XCRemoteSwiftPackageReference "XCoordinator" */,
+				9BE1674A2E00122D00F98583 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				9BE1674E2E0015A200F98583 /* XCRemoteSwiftPackageReference "ApphudSDK" */,
+				9BE167512E00167B00F98583 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+				9BE167542E0017A500F98583 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
+				9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				9BE16A662E00609200F98583 /* XCRemoteSwiftPackageReference "AlertKit" */,
+				9BE16A942E006ABF00F98583 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				9BE16A972E006DFE00F98583 /* XCRemoteSwiftPackageReference "DeviceKit" */,
+				9BE16A9A2E006EFB00F98583 /* XCRemoteSwiftPackageReference "SkeletonView" */,
+				9BE16AA32E008E4400F98583 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+				9BE16AAC2E0307E300F98583 /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9BE165B62DFF3A9800F98583 /* Products */;
 			projectDirPath = "";
@@ -151,7 +231,6 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
@@ -185,7 +264,6 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
@@ -349,6 +427,213 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9BE165D22DFF62DC00F98583 /* XCRemoteSwiftPackageReference "XCoordinator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/QuickBirdEng/XCoordinator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.1;
+			};
+		};
+		9BE1674A2E00122D00F98583 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		9BE1674E2E0015A200F98583 /* XCRemoteSwiftPackageReference "ApphudSDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apphud/ApphudSDK";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.6.2;
+			};
+		};
+		9BE167512E00167B00F98583 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.17.0;
+			};
+		};
+		9BE167542E0017A500F98583 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.14.0;
+			};
+		};
+		9BE16A662E00609200F98583 /* XCRemoteSwiftPackageReference "AlertKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparrowcode/AlertKit";
+			requirement = {
+				kind = exactVersion;
+				version = 4.2.0;
+			};
+		};
+		9BE16A942E006ABF00F98583 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
+		9BE16A972E006DFE00F98583 /* XCRemoteSwiftPackageReference "DeviceKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devicekit/DeviceKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+		9BE16A9A2E006EFB00F98583 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.31.0;
+			};
+		};
+		9BE16AA32E008E4400F98583 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
+		9BE16AAC2E0307E300F98583 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9BE165D32DFF62DC00F98583 /* XCoordinator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE165D22DFF62DC00F98583 /* XCRemoteSwiftPackageReference "XCoordinator" */;
+			productName = XCoordinator;
+		};
+		9BE1674B2E00122D00F98583 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE1674A2E00122D00F98583 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		9BE1674F2E0015A200F98583 /* ApphudSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE1674E2E0015A200F98583 /* XCRemoteSwiftPackageReference "ApphudSDK" */;
+			productName = ApphudSDK;
+		};
+		9BE167522E00167B00F98583 /* AppsFlyerLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167512E00167B00F98583 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
+			productName = AppsFlyerLib;
+		};
+		9BE167552E0017A500F98583 /* AmplitudeSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167542E0017A500F98583 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */;
+			productName = AmplitudeSwift;
+		};
+		9BE1675A2E001E1B00F98583 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		9BE1675C2E001E1B00F98583 /* FirebaseAnalyticsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsCore;
+		};
+		9BE1675E2E001E1B00F98583 /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		9BE167602E001E1B00F98583 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		9BE167622E001E1B00F98583 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		9BE167642E001E1B00F98583 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		9BE167662E001E1B00F98583 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		9BE167682E001E1B00F98583 /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
+		};
+		9BE1676A2E001E1B00F98583 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		9BE16A672E00609200F98583 /* SPAlert */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE16A662E00609200F98583 /* XCRemoteSwiftPackageReference "AlertKit" */;
+			productName = SPAlert;
+		};
+		9BE16A952E006ABF00F98583 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE16A942E006ABF00F98583 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		9BE16A982E006DFE00F98583 /* DeviceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE16A972E006DFE00F98583 /* XCRemoteSwiftPackageReference "DeviceKit" */;
+			productName = DeviceKit;
+		};
+		9BE16A9B2E006EFB00F98583 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE16A9A2E006EFB00F98583 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
+		};
+		9BE16AA42E008E4400F98583 /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE16AA32E008E4400F98583 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+		9BE16AAD2E0307E300F98583 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE16AAC2E0307E300F98583 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		9BE16AC52E03093B00F98583 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BE167592E001E1A00F98583 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9BE165AD2DFF3A9800F98583 /* Project object */;
 }
