@@ -1,6 +1,6 @@
 //
 //  UserDefaultsApplicationState.swift
-//  voltyplus
+//  foldlybrowserplus
 //
 //  Created by niyazovv on 10.05.2024.
 //

@@ -1,6 +1,6 @@
 //
 //  UIlabel+Extension.swift
-//  tralala-creator
+//  foldlybrowser
 //
 //  Created by TapticGroup on 31/03/2025.
 //

@@ -1,6 +1,6 @@
 //
 //  ChatTarget.swift
-//  tralala-creator
+//  foldlybrowser
 //
 //  Created by TapticGroup on 27.03.2025.
 //
@@ -40,8 +40,8 @@ enum GenerationTarget {
 
 extension GenerationTarget: TargetType {
     var baseURL: URL {
-        // return .init(string: "http://127.0.0.1:8000/absurdino/v1/")!
-        return .init(string: "https://api.tapticgroup.com/absurdino/v1/")!
+        // return .init(string: "http://127.0.0.1:8000/foldlybrowser/v1/")!
+        return .init(string: "https://api.tapticgroup.com/foldlybrowser/v1/")!
     }
 
     @MainActor var path: String {

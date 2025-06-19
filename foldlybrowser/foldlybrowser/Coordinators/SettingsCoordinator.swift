@@ -1,6 +1,6 @@
 //
 //  SettingsCoordinator.swift
-//  absurdino
+//  foldlybrowser
 //
 //  Created by Niyazov on 21.02.2023.
 //

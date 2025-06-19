@@ -1,6 +1,6 @@
 //
 //  Notification.Name+Extension.swift
-//  absurdino
+//  foldlybrowser
 //
 //  Created by Niyazov on 22.04.2023.
 //

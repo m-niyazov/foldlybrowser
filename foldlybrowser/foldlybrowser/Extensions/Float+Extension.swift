@@ -1,6 +1,6 @@
 //
 //  Float+Extension.swift
-//  tralala-creator
+//  foldlybrowser
 //
 //  Created by TapticGroup on 27.03.2025.
 //

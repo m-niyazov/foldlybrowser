@@ -1,6 +1,6 @@
 //
 //  UITableViewCell+Extension .swift
-//  absurdino
+//  foldlybrowser
 //
 //  Created by Niyazov on 17.06.2023.
 //

@@ -1,6 +1,6 @@
 //
 //  SPAlert.swift
-//  absurdino
+//  foldlybrowser
 //
 //  Created by Niyazov on 12.06.2023.
 //

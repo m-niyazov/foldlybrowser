@@ -1,6 +1,6 @@
 //
 //  PaywallCoordinator.swift
-//  absurdino
+//  foldlybrowser
 //
 //  Created by Niyazov on 13.02.2023.
 //

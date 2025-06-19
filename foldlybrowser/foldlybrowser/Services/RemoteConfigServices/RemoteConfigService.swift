@@ -1,6 +1,6 @@
 //
 //  RemoteConfigService.swift
-//  Volty+
+//  foldlybrowser+
 //
 //  Created by m-niyazov on 31.05.2023.
 //
