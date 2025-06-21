@@ -15,8 +15,8 @@ final class HomeView: UIView {
 
     // MARK: - Views
 
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
-
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
+    
     // MARK: - Initialize
 
     override init(frame: CGRect) {

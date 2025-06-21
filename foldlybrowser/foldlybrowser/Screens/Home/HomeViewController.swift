@@ -11,7 +11,7 @@ protocol HomeViewControllerProtocol: AnyObject {
     func render(_ props: HomeProps)
 }
 
-final class HomeViewController: UIViewController, HomeViewControllerProtocol {
+final class HomeViewController: KeyboardHandlingViewController, HomeViewControllerProtocol {
     
     // MARK: - Properties
     
@@ -21,12 +21,9 @@ final class HomeViewController: UIViewController, HomeViewControllerProtocol {
     
     // MARK: - Views
     var homeView = HomeView()
+    let bottomSearchBar = HomeBottomSearchBar()
 
     // MARK: - Lifecycle
-    override func loadView() {
-        view = homeView
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.loadData()
@@ -48,6 +45,14 @@ final class HomeViewController: UIViewController, HomeViewControllerProtocol {
     func update(_ props: HomeProps) {
         homeView.update(props)
     }
+
+    func keyboardWillShow(keyboardHeight: CGFloat) {
+        bottomSearchBar.makeSearchBarActive(keyboardHeight: keyboardHeight)
+    }
+
+    func keyboardWillHide() {
+        bottomSearchBar.makeSearchBarInActive()
+    }
 }
 
 // MARK: - Private Methods
@@ -56,12 +61,22 @@ private extension HomeViewController {
     
     func setupView() {
         view.backgroundColor = .systemGroupedBackground
+        keyboardHandlingRootView = view
     }
     
     func addViews() {
+        view.addSubview(homeView)
+        view.addSubview(bottomSearchBar)
     }
     
     func setupConstraints() {
+        homeView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        bottomSearchBar.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     // MARK: - UI Actions

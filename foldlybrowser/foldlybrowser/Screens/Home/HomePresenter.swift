@@ -28,19 +28,19 @@ final class HomePresenter: HomePresenterProtocol {
 
     func loadData() {
         view?.render(.init(sections: [
-            .init(type: .header(.init(tappedAppSettingsButton: nil))),
-            .init(type: .sectionTitle(.init(
-                title: "Favorites",
-                subtitle: "Make a folder or add a site you like",
-                buttontype: .seeAllFavorites,
-                select: nil))
-            ),
-            .init(type: .sectionTitle(.init(
-                title: "Imported",
-                subtitle: "Shared packs you’ve added",
-                buttontype: nil,
-                select: nil))
-            )
+            .init(type: .header(.init(tappedAppSettingsButton: nil)))
+//            .init(type: .sectionTitle(.init(
+//                title: "Favorites",
+//                subtitle: "Make a folder or add a site you like",
+//                buttontype: .seeAllFavorites,
+//                select: nil))
+//            ),
+//            .init(type: .sectionTitle(.init(
+//                title: "Imported",
+//                subtitle: "Shared packs you’ve added",
+//                buttontype: nil,
+//                select: nil))
+//            )
         ]))
     }
 }
