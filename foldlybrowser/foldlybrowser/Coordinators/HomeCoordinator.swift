@@ -26,8 +26,7 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
     override func prepareTransition(for route: HomeRoute) -> NavigationTransition {
         switch route {
         case .home:
-            let home = UIViewController()
-            home.view.backgroundColor = .yellow
+            let home = home()
             return .set([home])
         case .paywall:
             let paywall = paywallCoordinator()
@@ -42,5 +41,9 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
     private func paywallCoordinator() -> PaywallCoordinator {
         let paywall = PaywallCoordinator(dependencies: dependencies, context: .main)
         return paywall
+    }
+
+    private func home() -> HomeViewController {
+        return HomeBuilder.build(router: weakRouter)
     }
 }

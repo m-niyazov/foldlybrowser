@@ -28,4 +28,14 @@ extension UILabel {
         let queue: DispatchQueue = .init(label: "typespeed", qos: .userInteractive)
         queue.asyncAfter(deadline: .now() + 0.05, execute: writingTask)
     }
+
+    /// Устанавливает Dynamic-Type-шрифт нужного веса
+    func setPreferredFontWithWeight(style: UIFont.TextStyle,
+                        weight: UIFont.Weight = .regular) {
+        let base = UIFont.preferredFont(forTextStyle: style)
+        let custom = UIFont.systemFont(ofSize: base.pointSize, weight: weight)
+        font = UIFontMetrics(forTextStyle: style).scaledFont(for: custom)
+        adjustsFontForContentSizeCategory = true
+    }
 }
+
