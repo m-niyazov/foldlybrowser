@@ -68,7 +68,7 @@ class HomeFolderViewCell: UICollectionViewCell {
         }
 
         nameLabel.snp.makeConstraints {
-            $0.top.equalTo(folderImageView.snp.bottom)
+            $0.top.equalTo(folderImageView.snp.bottom).offset(3.5)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-10)
         }
