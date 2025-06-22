@@ -63,7 +63,7 @@ class HomeHeaderCell: UICollectionViewCell {
         }
 
         subtitlLabel.do {
-            $0.font = .preferredFont(forTextStyle: .headline)
+            $0.font = .preferredFont(forTextStyle: .subheadline)
             $0.textColor = .secondaryLabel
             $0.numberOfLines = 0
         }

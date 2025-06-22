@@ -20,7 +20,9 @@ struct HomeProps {
             true
         }
         case header(HeaderProps)
+        case searchTrends
         case sectionTitle(SectionTitleProps)
+        case folders([FolderProps])
     }
 
     struct HeaderProps {
@@ -38,5 +40,11 @@ struct HomeProps {
             case importFolder
             case closeAds
         }
+    }
+
+    struct FolderProps {
+        let id: String
+        let name: String
+        let emoji: String?
     }
 }

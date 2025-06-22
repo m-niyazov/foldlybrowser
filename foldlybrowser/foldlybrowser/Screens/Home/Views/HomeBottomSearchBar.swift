@@ -12,7 +12,7 @@ import SnapKit
 final class HomeBottomSearchBar: UIView {
 
     // MARK: – Subviews
-    private let bluryBackground = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    private let bluryBackground = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     private var bluryBackgroundHeightConstraint: Constraint!
     private let contentView = UIView()
 
@@ -26,7 +26,7 @@ final class HomeBottomSearchBar: UIView {
     private let homeButton = UIButton(type: .system)
     private let backButton = UIButton(type: .system)
     private let menuButton = UIButton(type: .system)
-    private let closeSearchButton = UIButton(type: .system)
+    private let closeButton = UIButton(type: .system)
 
     // MARK: – Public callbacks
     var didTapBack: (() -> Void)?
@@ -74,6 +74,11 @@ private extension HomeBottomSearchBar {
             $0.backgroundColor = .none
         }
 
+        bluryBackground.do {
+            $0.layer.borderColor = UIColor.systemGray5.cgColor
+            $0.layer.borderWidth = 1
+        }
+
         searchTextFieldContainer.do {
             $0.backgroundColor = .systemGray6
             $0.axis = .horizontal
@@ -111,23 +116,23 @@ private extension HomeBottomSearchBar {
         }
 
 
-//        [homeButton, backButton, menuButton].forEach {
-//            $0.tintColor = .label
-//            $0.layer.cornerRadius = 20
-//            $0.backgroundColor = .systemGray6
-//        }
-//
-//        homeButton.do {
-//            $0.setImage(.init(systemName: "house"), for: .normal)
-//        }
-//
-//        backButton.do {
-//            $0.setImage(.init(systemName: "chevron.backward"), for: .normal)
-//        }
-//
-//        menuButton.do {
-//            $0.setImage(.init(systemName: "ellipsis"), for: .normal)
-//        }
+        [homeButton, backButton, menuButton, closeButton].forEach {
+            $0.tintColor = .label
+            $0.layer.cornerRadius = 22.5
+            $0.backgroundColor = .systemGray5
+        }
+
+        homeButton.do {
+            $0.setImage(.init(systemName: "house"), for: .normal)
+        }
+
+        backButton.do {
+            $0.setImage(.init(systemName: "chevron.backward"), for: .normal)
+        }
+
+        menuButton.do {
+            $0.setImage(.init(systemName: "ellipsis"), for: .normal)
+        }
     }
 
     func addSubviews() {

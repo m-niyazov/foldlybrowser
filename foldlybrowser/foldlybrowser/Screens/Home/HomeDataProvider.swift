@@ -24,6 +24,10 @@ final class ExploreViewDataProvider: NSObject, UICollectionViewDataSource, UICol
             return 1
         case .sectionTitle:
             return 1
+        case .searchTrends:
+            return 1
+        case .folders(let folderProps):
+            return folderProps.count
         }
     }
 
@@ -36,9 +40,16 @@ final class ExploreViewDataProvider: NSObject, UICollectionViewDataSource, UICol
             let cell = collectionView.dequeueCell(with: indexPath) as HomeHeaderCell
             cell.render(headerProps)
             return cell
+        case .searchTrends:
+            let cell = collectionView.dequeueCell(with: indexPath) as HomeSearchTrendsCell
+            return cell
         case .sectionTitle(let sectionTitle):
             let cell = collectionView.dequeueCell(with: indexPath) as HomeSectionTitleCell
             cell.render(sectionTitle)
+            return cell
+        case .folders(let folderProps):
+            let cell = collectionView.dequeueCell(with: indexPath) as HomeFolderViewCell
+            cell.render(folderProps[indexPath.row])
             return cell
         }
     }

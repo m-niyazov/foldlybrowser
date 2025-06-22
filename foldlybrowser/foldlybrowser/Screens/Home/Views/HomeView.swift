@@ -64,7 +64,9 @@ private extension HomeView {
             $0.showsHorizontalScrollIndicator = false
             $0.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
             $0.register(cellWithClass: HomeHeaderCell.self)
+            $0.register(cellWithClass: HomeSearchTrendsCell.self)
             $0.register(cellWithClass: HomeSectionTitleCell.self)
+            $0.register(cellWithClass: HomeFolderViewCell.self)
         }
     }
 
@@ -89,9 +91,13 @@ private extension HomeView {
                 return self.createHeaderLayoutSection()
             case .sectionTitle:
                 return self.createSectionTitleLayoutSection()
+            case .searchTrends:
+                return self.createSearchTrendsSection()
+            case .folders:
+                return self.сreateFoldersSection()
             }
         }
-
+        layout.register(HomeSectionBackgroundView.self, forDecorationViewOfKind: HomeSectionBackgroundView.kind)
         return layout
     }
 
@@ -115,6 +121,24 @@ private extension HomeView {
         return section
     }
 
+    func createSearchTrendsSection() -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(UIScreen.main.bounds.height * 0.18)
+            ))
+
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(UIScreen.main.bounds.height * 0.18)
+            ),
+            subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = .init(top: 20, leading: 16, bottom: 0, trailing: 16)
+        return section
+    }
+
     func createSectionTitleLayoutSection() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(
             layoutSize: .init(
@@ -132,6 +156,30 @@ private extension HomeView {
 
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = .init(top: 20, leading: 16, bottom: 0, trailing: 16)
+        return section
+    }
+
+    func сreateFoldersSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.2),
+                                             heightDimension: .estimated(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .estimated(1))
+
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                         subitems: [item])
+     //   group.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        group.interItemSpacing = .fixed(10)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = .init(top: 28, leading: 32, bottom: 24, trailing: 32)
+    //    let layout = UICollectionViewCompositionalLayout(section: section)
+        let bg = NSCollectionLayoutDecorationItem.background(
+                           elementKind: HomeSectionBackgroundView.kind)
+              bg.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16,
+                                                         bottom: 16, trailing: 16)
+        section.decorationItems = [bg]
         return section
     }
 
