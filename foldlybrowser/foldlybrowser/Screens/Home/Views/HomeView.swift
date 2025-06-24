@@ -66,7 +66,7 @@ private extension HomeView {
             $0.register(cellWithClass: HomeHeaderCell.self)
             $0.register(cellWithClass: HomeSearchTrendsCell.self)
             $0.register(cellWithClass: HomeSectionTitleCell.self)
-            $0.register(cellWithClass: HomeFolderViewCell.self)
+            $0.register(cellWithClass: HomeMainTappableItemViewCell.self)
         }
     }
 
@@ -93,7 +93,7 @@ private extension HomeView {
                 return self.createSectionTitleLayoutSection()
             case .searchTrends:
                 return self.createSearchTrendsSection()
-            case .folders:
+            case .mainTappableItems:
                 return self.сreateFoldersSection()
             }
         }

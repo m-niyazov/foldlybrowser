@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class HomeFolderViewCell: UICollectionViewCell {
+class HomeMainTappableItemViewCell: UICollectionViewCell {
     // MARK: - Views
     private let mainImageContainer = UIView()
     private let folderIconImageView = UIImageView()
@@ -34,9 +34,22 @@ class HomeFolderViewCell: UICollectionViewCell {
 
     // MARK: - Mthods
 
-    func render(_ props: HomeProps.FolderProps) {
-        nameLabel.text = props.name
-        emojiLabel.text = props.emoji
+    func render(_ props: HomeProps.MainTappableItem) {
+        switch props {
+        case .folder(let folderData):
+            nameLabel.text = folderData.name
+        case .website(let websiteData):
+            nameLabel.text = websiteData.name
+            folderIconImageView.image = .appleLogoBlack
+            mainImageContainer.backgroundColor = .none
+        case .addNew:
+            folderIconImageView.image = .init(systemName: "plus.app")
+            folderIconImageView.tintColor = .systemBlue
+            mainImageContainer.backgroundColor = .none
+            print("")
+        }
+
+        nameLabel.isHidden = nameLabel.text == nil
 
         emojiLabelContainer.isHidden = true
         emojiLabel.isHidden = true
@@ -58,7 +71,7 @@ class HomeFolderViewCell: UICollectionViewCell {
             $0.image = UIImage(systemName: "folder", withConfiguration: configuration)
             //$0.image = .FolderIcons.folderWh
             $0.tintColor = .white
-            $0.contentMode = .scaleAspectFill
+            $0.contentMode = .scaleAspectFit
         }
 
         nameLabel.do {
@@ -110,7 +123,7 @@ class HomeFolderViewCell: UICollectionViewCell {
         }
 
         nameLabel.snp.makeConstraints {
-            $0.top.equalTo(mainImageContainer.snp.bottom).offset(5)
+            $0.top.equalTo(mainImageContainer.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.lessThanOrEqualToSuperview()
         }

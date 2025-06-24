@@ -22,7 +22,7 @@ struct HomeProps {
         case header(HeaderProps)
         case searchTrends
         case sectionTitle(SectionTitleProps)
-        case folders([FolderProps])
+        case mainTappableItems([MainTappableItem])
     }
 
     struct HeaderProps {
@@ -42,9 +42,22 @@ struct HomeProps {
         }
     }
 
-    struct FolderProps {
-        let id: String
-        let name: String
-        let emoji: String?
+    enum MainTappableItem {
+        case folder(MainTappableItemFolder)
+        case website(MainTappableItemWebsite)
+        case addNew
+
+        struct MainTappableItemFolder {
+            let id: String
+            let name: String
+            let emoji: String?
+        }
+
+        struct MainTappableItemWebsite {
+            let id: String
+            let name: String
+            let thumbnailURL: String
+            let folderId: String?
+        }
     }
 }

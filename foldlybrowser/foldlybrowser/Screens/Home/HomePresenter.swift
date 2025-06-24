@@ -36,9 +36,10 @@ final class HomePresenter: HomePresenterProtocol {
                 buttontype: .seeAllFavorites,
                 select: nil)
             )),
-            .init(type: .folders([
-                .init(id: "1", name: "Read Later", emoji: "📚"),
-                .init(id: "2", name: "Spanish Learn", emoji: "🇪🇸"),
+            .init(type: .mainTappableItems([
+                .folder(.init(id: "f1", name: "Read Later", emoji: "📚")),
+                .website(.init(id: "s1", name: "Apple", thumbnailURL: "", folderId: nil)),
+                .addNew
 //                .init(id: "3", name: "Work", emoji: "💼"),
 //                .init(id: "4", name: "Movies", emoji: "🎥"),
 //                .init(id: "5", name: "18+", emoji: "🔞"),
