@@ -160,8 +160,8 @@ private extension HomeView {
     }
 
     func сreateFoldersSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25),
-                                             heightDimension: .estimated(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(70),
+                                             heightDimension: .absolute(105))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -173,13 +173,13 @@ private extension HomeView {
         group.interItemSpacing = .fixed(10)
 
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 28, leading: 32, bottom: 24, trailing: 32)
-    //    let layout = UICollectionViewCompositionalLayout(section: section)
-        let bg = NSCollectionLayoutDecorationItem.background(
-                           elementKind: HomeSectionBackgroundView.kind)
-              bg.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16,
-                                                         bottom: 16, trailing: 16)
-        section.decorationItems = [bg]
+        section.contentInsets = .init(top: 15, leading: 16, bottom: 0, trailing: 16)
+
+//        let bg = NSCollectionLayoutDecorationItem.background(
+//                           elementKind: HomeSectionBackgroundView.kind)
+//              bg.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16,
+//                                                         bottom: 16, trailing: 16)
+//        section.decorationItems = [bg]
         return section
     }
 
