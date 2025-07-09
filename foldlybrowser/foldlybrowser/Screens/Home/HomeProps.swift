@@ -10,6 +10,7 @@ import UIKit
 
 struct HomeProps {
     var sections: [Section]
+    var bottomSearchBar: HomeBottomSearchBarProps
 
     struct Section {
         var type: Cell
@@ -59,5 +60,9 @@ struct HomeProps {
             let thumbnailURL: String
             let folderId: String?
         }
+    }
+
+    struct HomeBottomSearchBarProps {
+        var didTapSearch: ((String) -> Void)?
     }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import XCoordinator
+import UIKit
 
 protocol HomePresenterProtocol: AnyObject {
     func loadData()
@@ -27,32 +28,42 @@ final class HomePresenter: HomePresenterProtocol {
     }
 
     func loadData() {
-        view?.render(.init(sections: [
-            .init(type: .header(.init(tappedAppSettingsButton: nil))),
-            .init(type: .searchTrends),
-            .init(type: .sectionTitle(.init(
-                title: "Favorites",
-                subtitle: "Make a folder or add a site you like",
-                buttontype: .seeAllFavorites,
-                select: nil)
-            )),
-            .init(type: .mainTappableItems([
-                .folder(.init(id: "f1", name: "Read Later", emoji: "📚")),
-                .website(.init(id: "s1", name: "Apple", thumbnailURL: "", folderId: nil)),
-                .addNew
-//                .init(id: "3", name: "Work", emoji: "💼"),
-//                .init(id: "4", name: "Movies", emoji: "🎥"),
-//                .init(id: "5", name: "18+", emoji: "🔞"),
-//                .init(id: "6", name: "Personal", emoji: "👮🏻‍♂️"),
-            ])),
-            .init(type: .sectionTitle(.init(
-                title: "Imported",
-                subtitle: "Shared packs you’ve added",
-                buttontype: .importFolder,
-                select: nil))
-            )
-        ]))
+        view?.render(.init(
+            sections: [
+                .init(type: .header(.init(tappedAppSettingsButton: nil))),
+                .init(type: .searchTrends),
+                .init(type: .sectionTitle(.init(
+                    title: "Favorites",
+                    subtitle: "Make a folder or add a site you like",
+                    buttontype: .seeAllFavorites,
+                    select: nil)
+                )),
+                .init(type: .mainTappableItems([
+                    .folder(.init(id: "f1", name: "Read Later", emoji: "📚")),
+                    .website(.init(id: "s1", name: "Apple", thumbnailURL: "", folderId: nil)),
+                    .addNew
+                    //                .init(id: "3", name: "Work", emoji: "💼"),
+                    //                .init(id: "4", name: "Movies", emoji: "🎥"),
+                    //                .init(id: "5", name: "18+", emoji: "🔞"),
+                    //                .init(id: "6", name: "Personal", emoji: "👮🏻‍♂️"),
+                ])),
+                .init(type: .sectionTitle(.init(
+                    title: "Imported",
+                    subtitle: "Shared packs you’ve added",
+                    buttontype: .importFolder,
+                    select: nil))
+                     )],
+            bottomSearchBar: .init(didTapSearch: didTapSearch),
+        ))
     }
+
+    func didTapSearch(_ searchingText: String) {
+        let vc = UIViewController()
+        vc.view.backgroundColor = .blue
+        view?.showChildViewControllerWithAnimation(vc)
+        print("wfowij")
+    }
+
 }
 
 // MARK: - Private Methods

@@ -9,6 +9,7 @@ import UIKit
 
 protocol HomeViewControllerProtocol: AnyObject {
     func render(_ props: HomeProps)
+    func showChildViewControllerWithAnimation(_ childVC: UIViewController)
 }
 
 final class HomeViewController: KeyboardHandlingViewController, HomeViewControllerProtocol {
@@ -40,6 +41,7 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
     // MARK: - Methods
     func render(_ props: HomeProps) {
         homeView.render(props)
+        bottomSearchBar.render(props.bottomSearchBar)
     }
 
     func update(_ props: HomeProps) {
@@ -52,6 +54,28 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
 
     func keyboardWillHide() {
         bottomSearchBar.makeSearchBarInActive()
+    }
+    
+    func showChildViewControllerWithAnimation(_ childVC: UIViewController) {
+        addChild(childVC)
+        view.insertSubview(childVC.view, belowSubview: bottomSearchBar)
+
+        childVC.view.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(bottomSearchBar.snp.top)
+        }
+
+        childVC.view.transform = CGAffineTransform(translationX: 0, y: view.bounds.height)
+        childVC.view.alpha = 0
+
+        childVC.didMove(toParent: self)
+
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut]) {
+            childVC.view.transform = .identity
+            childVC.view.alpha = 1
+        }
+        keyboardWillHide()
+        bottomSearchBar.searchTextField.endEditing(true)
     }
 }
 

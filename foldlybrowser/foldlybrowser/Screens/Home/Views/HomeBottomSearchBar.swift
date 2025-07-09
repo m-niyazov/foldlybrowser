@@ -20,7 +20,7 @@ final class HomeBottomSearchBar: UIView {
     private var searchTextFieldContainerWidthEqualConstraint: Constraint!
     private var searchTextFieldContainerWidthLessConstraint: Constraint!
     private var widthEqualConstraint: Constraint!
-    private let searchTextField = UITextField()
+    let searchTextField = UITextField()
     private let searchEngineIcon = UIImageView()
 
     private let homeButton = UIButton(type: .system)
@@ -32,6 +32,7 @@ final class HomeBottomSearchBar: UIView {
     var didTapBack: (() -> Void)?
     var didTapMenu: (() -> Void)?
     var didTapCancel: (() -> Void)?
+    var didTapSearch: ((String) -> Void)?
 
     // MARK: – Init
     override init(frame: CGRect) {
@@ -42,6 +43,10 @@ final class HomeBottomSearchBar: UIView {
 
     required init?(coder: NSCoder) {
         fatalError()
+    }
+
+    func render(_ props: HomeProps.HomeBottomSearchBarProps) {
+        didTapSearch = props.didTapSearch
     }
 
     func makeSearchBarActive(keyboardHeight: CGFloat) {
@@ -195,6 +200,7 @@ private extension HomeBottomSearchBar {
 extension HomeBottomSearchBar: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        didTapSearch?(textField.text ?? "")
         return true
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
