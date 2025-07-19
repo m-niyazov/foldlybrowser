@@ -44,7 +44,7 @@ final class HomeView: UIView {
     func update(_ props: HomeProps) {
         self.props = props
         dataProvider.props = props
-        collectionView.reloadData()
+        collectionView.reloadSections([3])
     }
 }
 

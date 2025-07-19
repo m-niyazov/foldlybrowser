@@ -12,7 +12,7 @@ import SnapKit
 final class HomeBottomSearchBar: UIView {
 
     // MARK: – Subviews
-    private let bluryBackground = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+    private let bluryBackground = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     private var bluryBackgroundHeightConstraint: Constraint!
     private let contentView = UIView()
 
@@ -29,9 +29,9 @@ final class HomeBottomSearchBar: UIView {
     private let closeButton = UIButton(type: .system)
 
     // MARK: – Public callbacks
+    var didTapHome: (() -> Void)?
     var didTapBack: (() -> Void)?
     var didTapMenu: (() -> Void)?
-    var didTapCancel: (() -> Void)?
     var didTapSearch: ((String) -> Void)?
 
     // MARK: – Init
@@ -47,6 +47,7 @@ final class HomeBottomSearchBar: UIView {
 
     func render(_ props: HomeProps.HomeBottomSearchBarProps) {
         didTapSearch = props.didTapSearch
+        didTapHome = props.didTapHome
     }
 
     func makeSearchBarActive(keyboardHeight: CGFloat) {
@@ -73,7 +74,7 @@ final class HomeBottomSearchBar: UIView {
 private extension HomeBottomSearchBar {
 
     func setupView() {
-        backgroundColor = .white
+        backgroundColor = .none
 
         contentView.do {
             $0.backgroundColor = .none
@@ -121,14 +122,12 @@ private extension HomeBottomSearchBar {
         }
 
 
-        [homeButton, backButton, menuButton, closeButton].forEach {
-            $0.tintColor = .label
-            $0.layer.cornerRadius = 22.5
-            $0.backgroundColor = .systemGray5
-        }
-
         homeButton.do {
-            $0.setImage(.init(systemName: "house"), for: .normal)
+            $0.setImage(
+                UIImage(systemName: "house", withConfiguration: UIImage.SymbolConfiguration(pointSize: 14, weight: .bold)),
+                for: .normal
+            )
+            $0.addTarget(self, action: #selector(tapHome), for: .touchUpInside)
         }
 
         backButton.do {
@@ -138,12 +137,19 @@ private extension HomeBottomSearchBar {
         menuButton.do {
             $0.setImage(.init(systemName: "ellipsis"), for: .normal)
         }
+        
+        [homeButton, backButton, menuButton, closeButton].forEach {
+            $0.layer.cornerRadius = 17.5
+            $0.tintColor = .black
+            $0.backgroundColor = .systemGray5
+        }
     }
 
     func addSubviews() {
         addSubview(bluryBackground)
         bluryBackground.contentView.addSubview(contentView)
         contentView.addSubview(searchTextFieldContainer)
+        contentView.addSubview(homeButton)
         searchTextFieldContainer.addArrangedSubview(searchEngineIcon)
         searchTextFieldContainer.addArrangedSubview(searchTextField)
 
@@ -160,8 +166,10 @@ private extension HomeBottomSearchBar {
             $0.bottom.lessThanOrEqualTo(safeAreaLayoutGuide)
         }
 
-        searchEngineIcon.snp.makeConstraints {
-            $0.size.equalTo(22.5)
+        homeButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.size.equalTo(35)
+            $0.trailing.equalTo(searchTextFieldContainer.snp.leading).offset(-16)
         }
 
         searchTextFieldContainer.snp.makeConstraints {
@@ -171,17 +179,15 @@ private extension HomeBottomSearchBar {
             $0.centerX.equalToSuperview()
         }
 
+        searchEngineIcon.snp.makeConstraints {
+            $0.size.equalTo(22.5)
+        }
+
         searchTextField.snp.makeConstraints {
             $0.height.equalTo(45)
         }
     }
 
-    // MARK: – UI updates
-    func updateForEditing(active: Bool) {
-        // 1. Скрываем / показываем back
-        homeButton.isHidden = active
-        backButton.isHidden = active
-    }
 
     // MARK: – Actions
     @objc func tapBack() {
@@ -192,7 +198,8 @@ private extension HomeBottomSearchBar {
         didTapMenu?()
     }
 
-    @objc func tapMic() {
+    @objc func tapHome() {
+        didTapHome?()
     }
 }
 
@@ -204,9 +211,7 @@ extension HomeBottomSearchBar: UITextFieldDelegate {
         return true
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        updateForEditing(active: true)
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
-        updateForEditing(active: false)
     }
 }

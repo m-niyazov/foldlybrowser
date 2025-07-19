@@ -70,7 +70,6 @@ class HomeHeaderCell: UICollectionViewCell {
             $0.backgroundColor = .systemGray5
             $0.setImage(.init(systemName: "gear"), for: .normal)
             $0.setTitleColor(.accent, for: .normal)
-            $0.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
             $0.addTarget(self, action: #selector(handleActionButton), for: .touchUpInside)
         }
     }
@@ -83,8 +82,9 @@ class HomeHeaderCell: UICollectionViewCell {
         contentView.addSubview(mainStackView)
         mainStackView.addArrangedSubview(labelsStackView)
         mainStackView.addArrangedSubview(settingsButton)
-        labelsStackView.addArrangedSubview(titleLabel)
         labelsStackView.addArrangedSubview(subtitlLabel)
+        labelsStackView.addArrangedSubview(titleLabel)
+
     }
 
     private func setupConstraints() {
@@ -93,7 +93,7 @@ class HomeHeaderCell: UICollectionViewCell {
         }
 
         settingsButton.snp.makeConstraints {
-            $0.width.equalTo(35)
+            $0.size.equalTo(35)
         }
     }
 }

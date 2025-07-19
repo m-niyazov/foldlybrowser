@@ -86,9 +86,10 @@ private extension HomeViewController {
         }
 
         webPageContainerView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(bottomSearchBar.snp.top)
         }
-        
+
         bottomSearchBar.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
         }
@@ -109,7 +110,7 @@ private extension HomeViewController {
             }
         } else if show == false {
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseIn], animations: {
-                self.webPageContainerView.transform = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
+                self.webPageContainerView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
                 self.webPageContainerView.alpha = 0
             }) { _ in
                 self.webPageContainerView.isHidden = true

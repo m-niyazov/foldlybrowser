@@ -28,6 +28,26 @@ class HomeMainTappableItemViewCell: UICollectionViewCell {
         setupConstraints()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        // Сброс изображений
+        folderIconImageView.image = nil
+        folderIconImageView.tintColor = .white
+
+        // Сброс фона
+        mainImageContainer.backgroundColor = .systemGray4
+
+        // Сброс текста
+        nameLabel.text = nil
+        nameLabel.isHidden = false
+
+        // Сброс emoji
+        emojiLabel.text = nil
+        emojiLabel.isHidden = true
+        emojiLabelContainer.isHidden = true
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -37,6 +57,8 @@ class HomeMainTappableItemViewCell: UICollectionViewCell {
     func render(_ props: HomeProps.MainTappableItem) {
         switch props {
         case .folder(let folderData):
+            let configuration = UIImage.SymbolConfiguration(weight: .light)
+            folderIconImageView.image = UIImage(systemName: "folder", withConfiguration: configuration)
             nameLabel.text = folderData.name
         case .website(let websiteData):
             nameLabel.text = websiteData.name
@@ -46,7 +68,6 @@ class HomeMainTappableItemViewCell: UICollectionViewCell {
             folderIconImageView.image = .init(systemName: "plus.app")
             folderIconImageView.tintColor = .systemBlue
             mainImageContainer.backgroundColor = .none
-            print("")
         }
 
         nameLabel.isHidden = nameLabel.text == nil
@@ -67,8 +88,6 @@ class HomeMainTappableItemViewCell: UICollectionViewCell {
         }
 
         folderIconImageView.do {
-            let configuration = UIImage.SymbolConfiguration(weight: .light)
-            $0.image = UIImage(systemName: "folder", withConfiguration: configuration)
             //$0.image = .FolderIcons.folderWh
             $0.tintColor = .white
             $0.contentMode = .scaleAspectFit
