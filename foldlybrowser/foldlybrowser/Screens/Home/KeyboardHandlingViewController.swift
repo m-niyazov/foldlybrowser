@@ -44,7 +44,12 @@ extension KeyboardHandlingViewController {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            (self as? HomeViewController)?.keyboardWillShow(keyboardHeight: keyboardHeight)
+            guard let selfVC = (self as? HomeViewController) else {
+                return
+            }
+            if selfVC.bottomSearchBar.searchTextField.isEditing == true {
+                (self as? HomeViewController)?.keyboardWillShow(keyboardHeight: keyboardHeight)
+            }
         }
     }
 

@@ -9,7 +9,7 @@ import UIKit
 
 protocol HomeViewControllerProtocol: AnyObject {
     func render(_ props: HomeProps)
-    func showChildViewControllerWithAnimation(_ childVC: UIViewController)
+    func update(_ props: HomeProps)
 }
 
 final class HomeViewController: KeyboardHandlingViewController, HomeViewControllerProtocol {
@@ -22,6 +22,7 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
     
     // MARK: - Views
     var homeView = HomeView()
+    var webPageContainerView = UIView()
     let bottomSearchBar = HomeBottomSearchBar()
 
     // MARK: - Lifecycle
@@ -46,6 +47,7 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
 
     func update(_ props: HomeProps) {
         homeView.update(props)
+        toggleWebPageContainerView(show: props.isNeedToShowWebPage)
     }
 
     func keyboardWillShow(keyboardHeight: CGFloat) {
@@ -54,28 +56,6 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
 
     func keyboardWillHide() {
         bottomSearchBar.makeSearchBarInActive()
-    }
-    
-    func showChildViewControllerWithAnimation(_ childVC: UIViewController) {
-        addChild(childVC)
-        view.insertSubview(childVC.view, belowSubview: bottomSearchBar)
-
-        childVC.view.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(bottomSearchBar.snp.top)
-        }
-
-        childVC.view.transform = CGAffineTransform(translationX: 0, y: view.bounds.height)
-        childVC.view.alpha = 0
-
-        childVC.didMove(toParent: self)
-
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut]) {
-            childVC.view.transform = .identity
-            childVC.view.alpha = 1
-        }
-        keyboardWillHide()
-        bottomSearchBar.searchTextField.endEditing(true)
     }
 }
 
@@ -86,15 +66,26 @@ private extension HomeViewController {
     func setupView() {
         view.backgroundColor = .systemGroupedBackground
         keyboardHandlingRootView = view
+        toggleWebPageContainerView(show: false)
+//        webPageContainerView.do {
+//            $0.isHidden = true
+//            $0.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
+//            $0.alpha = 0
+//        }
     }
     
     func addViews() {
         view.addSubview(homeView)
+        view.addSubview(webPageContainerView)
         view.addSubview(bottomSearchBar)
     }
     
     func setupConstraints() {
         homeView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        webPageContainerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
@@ -103,6 +94,27 @@ private extension HomeViewController {
         }
     }
     
-    // MARK: - UI Actions
+    func toggleWebPageContainerView(show: Bool) {
+        if show {
+            bottomSearchBar.endEditing(true)
+        }
+        if show && webPageContainerView.isHidden == true {
+            webPageContainerView.isHidden = false
+            webPageContainerView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
+            webPageContainerView.alpha = 0
+
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut]) {
+                self.webPageContainerView.transform = .identity
+                self.webPageContainerView.alpha = 1
+            }
+        } else if show == false {
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseIn], animations: {
+                self.webPageContainerView.transform = CGAffineTransform(translationX: 0, y: -UIScreen.main.bounds.height)
+                self.webPageContainerView.alpha = 0
+            }) { _ in
+                self.webPageContainerView.isHidden = true
+            }
+        }
+    }
 
 }

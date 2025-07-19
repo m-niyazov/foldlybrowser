@@ -11,7 +11,8 @@ import UIKit
 struct HomeProps {
     var sections: [Section]
     var bottomSearchBar: HomeBottomSearchBarProps
-
+    var isNeedToShowWebPage: Bool
+    
     struct Section {
         var type: Cell
     }

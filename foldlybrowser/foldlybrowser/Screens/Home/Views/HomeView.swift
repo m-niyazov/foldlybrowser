@@ -105,13 +105,13 @@ private extension HomeView {
         let item = NSCollectionLayoutItem(
             layoutSize: .init(
                 widthDimension: .fractionalWidth(1.0), // Ширина равна ширине группы
-                heightDimension: .estimated(1) // Динамическая высота
+                heightDimension: .estimated(15) // Динамическая высота
             )
         )
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: .init(
                 widthDimension: .fractionalWidth(1.0), // Ширина равна ширине коллекции
-                heightDimension: .estimated(1) // Динамическая высота
+                heightDimension: .estimated(15) // Динамическая высота
             ),
             subitems: [item]
         )
@@ -143,7 +143,7 @@ private extension HomeView {
         let item = NSCollectionLayoutItem(
             layoutSize: .init(
                 widthDimension: .fractionalWidth(1.0), // Ширина равна ширине группы
-                heightDimension: .estimated(1) // Динамическая высота
+                heightDimension: .estimated(15) // Динамическая высота
             )
         )
         let group = NSCollectionLayoutGroup.vertical(

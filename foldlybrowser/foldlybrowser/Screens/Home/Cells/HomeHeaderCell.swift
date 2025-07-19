@@ -32,11 +32,6 @@ class HomeHeaderCell: UICollectionViewCell {
     // MARK: - Mthods
 
     func render(_ props: HomeProps.HeaderProps) {
-        titleLabel.text = "Browser"
-        subtitlLabel.text = "Find, Share, Save"
-        labelsStackView.insertArrangedSubview(subtitlLabel, at: 0)
-
-        mainStackView.addArrangedSubview(settingsButton)
         actionButtonAction = props.tappedAppSettingsButton
     }
 
@@ -58,11 +53,13 @@ class HomeHeaderCell: UICollectionViewCell {
         }
 
         titleLabel.do {
+            $0.text = "Browser"
             $0.font = .preferredFont(forTextStyle: .extraLargeTitle)
             $0.textColor = .label
         }
 
         subtitlLabel.do {
+            $0.text = "Find, Share, Save"
             $0.font = .preferredFont(forTextStyle: .subheadline)
             $0.textColor = .secondaryLabel
             $0.numberOfLines = 0
@@ -83,9 +80,11 @@ class HomeHeaderCell: UICollectionViewCell {
     }
 
     private func addViews() {
-        addSubview(mainStackView)
+        contentView.addSubview(mainStackView)
         mainStackView.addArrangedSubview(labelsStackView)
+        mainStackView.addArrangedSubview(settingsButton)
         labelsStackView.addArrangedSubview(titleLabel)
+        labelsStackView.addArrangedSubview(subtitlLabel)
     }
 
     private func setupConstraints() {
@@ -94,7 +93,7 @@ class HomeHeaderCell: UICollectionViewCell {
         }
 
         settingsButton.snp.makeConstraints {
-            $0.size.equalTo(35)
+            $0.width.equalTo(35)
         }
     }
 }

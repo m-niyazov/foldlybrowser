@@ -10,6 +10,7 @@ import XCoordinator
 
 enum HomeRoute: Route {
     case home
+    case webpage(requestString: String)
     case paywall
     case alert(Alert)
     case appReview
@@ -35,6 +36,11 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
             return .presentAlert(alert)
         case .appReview:
             return .appReview()
+        case .webpage(let requestString):
+            let webpage = webpage(requestString: requestString)
+            return .embed(
+                webpage, in: (rootViewController.visibleViewController as? HomeViewController)!.webPageContainerView
+            )
         }
     }
 
@@ -45,5 +51,9 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
 
     private func home() -> HomeViewController {
         return HomeBuilder.build(router: weakRouter)
+    }
+
+    private func webpage(requestString: String) -> WebpageViewController {
+        return WebpageBuilder.build(router: weakRouter, requestString: requestString)
     }
 }

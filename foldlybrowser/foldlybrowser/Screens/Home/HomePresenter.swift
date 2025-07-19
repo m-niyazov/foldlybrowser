@@ -19,6 +19,7 @@ final class HomePresenter: HomePresenterProtocol {
 
     private weak var view: HomeViewControllerProtocol?
     private let router: WeakRouter<HomeRoute>
+    private var props: HomeProps?
 
     // MARK: - Initialize
 
@@ -28,7 +29,7 @@ final class HomePresenter: HomePresenterProtocol {
     }
 
     func loadData() {
-        view?.render(.init(
+        var props: HomeProps = .init(
             sections: [
                 .init(type: .header(.init(tappedAppSettingsButton: nil))),
                 .init(type: .searchTrends),
@@ -54,16 +55,23 @@ final class HomePresenter: HomePresenterProtocol {
                     select: nil))
                      )],
             bottomSearchBar: .init(didTapSearch: didTapSearch),
-        ))
+            isNeedToShowWebPage: false,
+        )
+        self.props = props
+        view?.render(props)
     }
 
     func didTapSearch(_ searchingText: String) {
-        let vc = UIViewController()
-        vc.view.backgroundColor = .blue
-        view?.showChildViewControllerWithAnimation(vc)
-        print("wfowij")
+        self.props?.isNeedToShowWebPage = true
+        updateViewProps()
+        router.trigger(.webpage(requestString: searchingText))
     }
 
+    func updateViewProps() {
+        if let props = props {
+            view?.update(props)
+        }
+    }
 }
 
 // MARK: - Private Methods
