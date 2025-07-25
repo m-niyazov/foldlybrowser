@@ -55,7 +55,7 @@ final class HomePresenter: HomePresenterProtocol {
                     select: nil))
                      )],
             bottomSearchBar: .init(didTapSearch: didTapSearch, didTapHome: didTapHome),
-            isNeedToShowWebPage: false,
+            isNeedToShowWebPage: false
         )
         self.props = props
         view?.render(props)
