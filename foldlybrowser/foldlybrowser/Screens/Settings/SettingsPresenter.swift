@@ -136,10 +136,27 @@ private extension SettingsPresenter {
 
 // MARK: - Actions
 private extension SettingsPresenter {
-    func authProSectionTapped() {}
-    func appearanceTapped() {}
-    func soundsTapped() {}
-    func authorizationTapped() {}
-    func languagesTapped() {}
-    func contactUsTapped() {}
+    func authProSectionTapped() {
+        
+    }
+    
+    func appearanceTapped() {
+        router.trigger(.settingsAppearance)
+    }
+    
+    func soundsTapped() {
+        
+    }
+    
+    func authorizationTapped() {
+        
+    }
+    
+    func languagesTapped() {
+        
+    }
+    
+    func contactUsTapped() {
+        
+    }
 }

@@ -10,6 +10,7 @@ import XCoordinator
 
 enum SettingsRoute: Route {
     case settings
+    case settingsAppearance
     case paywall
     case shareApp
     case dismiss
@@ -58,6 +59,9 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
             return .none()
         case .openSafari(let url):
             return .openSafari(url: url)
+        case .settingsAppearance:
+            let settingsAppearance = settingsAppearance()
+            return .push(settingsAppearance)
         }
     }
 
@@ -78,5 +82,13 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
             subscriptionService: dependencies.subscriptionService
         )
         return settings
+    }
+    
+    private func settingsAppearance() -> UIViewController {
+        let settingsAppearance = SettingsAppearanceBuilder.build(
+            router: weakRouter,
+            analyticService: dependencies.analyticService
+        )
+        return settingsAppearance
     }
 }
