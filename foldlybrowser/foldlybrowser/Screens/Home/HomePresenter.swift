@@ -31,7 +31,7 @@ final class HomePresenter: HomePresenterProtocol {
     func loadData() {
         var props: HomeProps = .init(
             sections: [
-                .init(type: .header(.init(tappedAppSettingsButton: nil))),
+                .init(type: .header(.init(tappedAppSettingsButton: didTapSettings))),
                 .init(type: .searchTrends),
                 .init(type: .sectionTitle(.init(
                     title: "Favorites",
@@ -82,4 +82,7 @@ final class HomePresenter: HomePresenterProtocol {
 // MARK: - Private Methods
 
 private extension HomePresenter {
+    func didTapSettings() {
+        router.trigger(.settings)
+    }
 }

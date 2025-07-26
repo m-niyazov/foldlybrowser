@@ -14,6 +14,7 @@ enum HomeRoute: Route {
     case paywall
     case alert(Alert)
     case appReview
+    case settings
 }
 
 final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
@@ -41,6 +42,9 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
             return .embed(
                 webpage, in: (rootViewController.visibleViewController as? HomeViewController)!.webPageContainerView
             )
+        case .settings:
+            let settings = settingsCoordinator()
+            return .present(settings)
         }
     }
 
@@ -55,5 +59,10 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
 
     private func webpage(requestString: String) -> WebpageViewController {
         return WebpageBuilder.build(router: weakRouter, requestString: requestString)
+    }
+    
+    private func settingsCoordinator() -> SettingsCoordinator {
+        let settings = SettingsCoordinator(dependencies: dependencies)
+        return settings
     }
 }
