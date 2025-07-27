@@ -1,5 +1,5 @@
 //
-//  SettingsViewController.swift
+//  SettingsAppearanceViewController.swift
 //  foldlybrowser
 //
 //  Created by Karpinskii.D.S. on 26.07.2025.
@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol SettingsViewControllerProtocol: AnyObject {
-    func render(_ data: SettingsProps)
+protocol SettingsAppearanceViewControllerProtocol: AnyObject {
+    func render(_ data: SettingsAppearanceProps)
 }
 
-final class SettingsViewController: UITableViewController, SettingsViewControllerProtocol {
+final class SettingsAppearanceViewController: UITableViewController, SettingsAppearanceViewControllerProtocol {
 
     // MARK: - Properties
-    private(set) var settingsData: SettingsProps?
-    var presenter: SettingsPresenterProtocol!
+    private(set) var settingsAppearanceData: SettingsAppearanceProps?
+    var presenter: SettingsAppearancePresenterProtocol!
     
     // MARK: - Init
        init() {
@@ -33,15 +33,15 @@ final class SettingsViewController: UITableViewController, SettingsViewControlle
         setupView()
     }
 
-    // MARK: - SettingsViewControllerProtocol
-    func render(_ data: SettingsProps) {
-        settingsData = data
+    // MARK: - SettingsAppearanceViewControllerProtocol
+    func render(_ data: SettingsAppearanceProps) {
+        settingsAppearanceData = data
         tableView.reloadData()
     }
 }
 
 // MARK: - Private Methods
-private extension SettingsViewController {
+private extension SettingsAppearanceViewController {
 
     func setupView() {
         setupNavigationBar()
@@ -52,12 +52,13 @@ private extension SettingsViewController {
             $0.contentInset.top = 30
             $0.showsVerticalScrollIndicator = false
             $0.allowsMultipleSelection = false
-            $0.register(cellWithClass: SettingCell.self)
+            $0.register(cellWithClass: SettingThemeCell.self)
+            $0.register(cellWithClass: SettingColorsCell.self)
         }
     }
 
     func setupNavigationBar() {
-        navigationItem.title = .init(localized: "settings.navigationTitle")
+        navigationItem.title = .init(localized: "settings.appearance.navigationTitle")
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
 
@@ -75,50 +76,65 @@ private extension SettingsViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension SettingsViewController {
+extension SettingsAppearanceViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        settingsData?.sections.count ?? 0
+        settingsAppearanceData?.sections.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        settingsData?.sections[section].items.count ?? 0
+        settingsAppearanceData?.sections[section].items.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let section = settingsData?.sections[indexPath.section] else {
+        guard let section = settingsAppearanceData?.sections[indexPath.section] else {
             return UITableViewCell()
         }
 
         switch section.items[indexPath.row] {
-        case .settingCell(let data):
-            let cell = tableView.dequeueCell(withClass: SettingCell.self, for: indexPath)
+        case .appearance(let data):
+            let cell = tableView.dequeueCell(withClass: SettingThemeCell.self, for: indexPath)
             cell.render(data)
+            return cell
+        case .color(let data):
+            let cell = tableView.dequeueCell(withClass: SettingColorsCell.self, for: indexPath)
+            cell.render(data, userSelectedColor: presenter.userSelectedColor)
             return cell
         }
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        settingsData?.sections[section].sectionTitle
+        settingsAppearanceData?.sections[section].sectionTitle
     }
 
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        settingsData?.sections[section].sectionDesctiption
+        settingsAppearanceData?.sections[section].sectionDesctiption
     }
 }
 
 // MARK: - UITableViewDelegate
-extension SettingsViewController {
+extension SettingsAppearanceViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        guard let cellType = settingsData?.sections[indexPath.section].items[indexPath.row]
-        else { return }
 
-        switch cellType {
-        case .settingCell(let data):
+        guard let rowType = settingsAppearanceData?.sections[indexPath.section].items[indexPath.row] else { return }
+
+        switch rowType {
+        case .appearance(let data):
             data.select()
+
+        case .color(let data):
+            presenter.userSelectedColor = data.color
+            data.select()
+
+            for cell in tableView.visibleCells {
+                if let colorCell = cell as? SettingColorsCell,
+                   let indexPath = tableView.indexPath(for: colorCell),
+                   case let .color(item) = settingsAppearanceData?.sections[indexPath.section].items[indexPath.row] {
+                    colorCell.setChecked(item.color == presenter.userSelectedColor)
+                }
+            }
         }
     }
 }
