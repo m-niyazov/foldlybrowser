@@ -32,9 +32,8 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
     override func prepareTransition(for route: SettingsRoute) -> NavigationTransition {
         switch route {
         case .settings:
-         //   let settings = settings()
-        //    return .set([settings])
-            return .none()
+            let settings = settings()
+            return .set([settings])
         case .paywall:
             let paywall = paywallCoordinator()
             return .present(paywall)
@@ -62,16 +61,6 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
         }
     }
 
-//    func settings() -> UIViewController {
-//        let settings = SettingsBuilder.build(
-//            router: weakRouter,
-//            applicationState: dependencies.applicationState,
-//            analyticService: dependencies.analyticService,
-//            subscriptionService: dependencies.subscriptionService
-//        )
-//        return settings
-//    }
-
     func paywallCoordinator() -> PaywallCoordinator {
         let paywall = PaywallCoordinator(dependencies: dependencies, context: .settings)
         return paywall
@@ -81,4 +70,13 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
 //        let webView = WebViewBuilder.build(url, navigationTitle)
 //        return UINavigationController(rootViewController: webView)
 //    }
+    
+    private func settings() -> UIViewController {
+        let settings = SettingsBuilder.build(
+            router: weakRouter,
+            analyticService: dependencies.analyticService,
+            subscriptionService: dependencies.subscriptionService
+        )
+        return settings
+    }
 }
