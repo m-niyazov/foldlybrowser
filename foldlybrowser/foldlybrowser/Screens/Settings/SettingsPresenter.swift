@@ -118,7 +118,7 @@ private extension SettingsPresenter {
                     title: "settings.aboutApp",
                     icon: "envelope.fill",
                     color: UIColor.systemGreen,
-                    action: contactUsTapped)
+                    action: aboutAppTapped)
                 )
             ]
         )
@@ -149,7 +149,7 @@ private extension SettingsPresenter {
     }
     
     func authorizationTapped() {
-        
+        router.trigger(.settingsPassword)
     }
     
     func languagesTapped() {
@@ -158,5 +158,9 @@ private extension SettingsPresenter {
     
     func contactUsTapped() {
         
+    }
+    
+    func aboutAppTapped() {
+        router.trigger(.settingsAboutApp)
     }
 }

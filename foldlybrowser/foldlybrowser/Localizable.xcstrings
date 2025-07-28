@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "colors.blue" : {
       "localizations" : {
         "en" : {
@@ -116,6 +119,37 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "About App"
+          }
+        }
+      }
+    },
+    "settings.aboutApp.current" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current"
+          }
+        }
+      }
+    },
+    "settings.aboutApp.protection.section.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have this version of the application installed. Check and install the new one if it is available."
+          }
+        }
+      }
+    },
+    "settings.aboutApp.version.section.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version"
           }
         }
       }
@@ -307,6 +341,66 @@
         }
       }
     },
+    "settings.password.allowWidgets" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow Widgets"
+          }
+        }
+      }
+    },
+    "settings.password.authorization" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authorization"
+          }
+        }
+      }
+    },
+    "settings.password.protection.section.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The application will request authorization before launch. For verification, use Face / Touch ID or passcode.\n"
+          }
+        }
+      }
+    },
+    "settings.password.protection.section.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessible Protection"
+          }
+        }
+      }
+    },
+    "settings.password.widgets.section.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If this setting is enabled, it will be possible to access the codes through widgets without authorization."
+          }
+        }
+      }
+    },
+    "settings.privacyPolicy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        }
+      }
+    },
     "settings.sounds" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -314,6 +408,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sounds"
+          }
+        }
+      }
+    },
+    "settings.termOfUse" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Term of Use"
           }
         }
       }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 final class SettingCell: UITableViewCell {
     // MARK: - Views
@@ -30,19 +31,50 @@ final class SettingCell: UITableViewCell {
 
     func render(_ data: SettingsProps.SettingCell) {
         label.text = data.text
+
+        guard !data.icon.isEmpty else {
+            iconContainer.isHidden = true
+            iconImageView.isHidden = true
+
+            label.snp.remakeConstraints {
+                $0.leading.equalToSuperview().inset(16)
+                $0.trailing.equalTo(chevronImageView.snp.leading).offset(-8)
+                $0.centerY.equalToSuperview()
+            }
+            return
+        }
+
+        iconContainer.isHidden = false
+        iconImageView.isHidden = false
         iconContainer.backgroundColor = data.iconBackgroundColor
 
-        let isPremiumCell = data.icon == "crown.fill"
-        layer.masksToBounds = isPremiumCell
-        layer.borderColor = isPremiumCell ? UIColor.white.cgColor : nil
-        layer.borderWidth = isPremiumCell ? 1 : 0
+        var icon: UIImage?
+        if let assetIcon = UIImage(named: data.icon) {
+            icon = assetIcon
+            iconImageView.tintColor = nil
+        } else if let sfIcon = UIImage(systemName: data.icon) {
+            icon = sfIcon.withRenderingMode(.alwaysTemplate)
+            iconImageView.tintColor = .white
+        }
 
-
-        let icon = UIImage(systemName: data.icon)?.withTintColor(
-            .white,
-            renderingMode: .alwaysOriginal
-        )
         iconImageView.image = icon
+
+        iconContainer.snp.remakeConstraints {
+            $0.leading.equalToSuperview().inset(16)
+            $0.size.equalTo(30)
+            $0.centerY.equalToSuperview()
+        }
+
+        iconImageView.snp.remakeConstraints {
+            $0.center.equalToSuperview()
+            $0.size.equalTo(20)
+        }
+
+        label.snp.remakeConstraints {
+            $0.leading.equalTo(iconContainer.snp.trailing).offset(16)
+            $0.trailing.equalTo(chevronImageView.snp.leading).offset(-8)
+            $0.centerY.equalToSuperview()
+        }
     }
 
     // MARK: - Private Methods
@@ -50,15 +82,21 @@ final class SettingCell: UITableViewCell {
     private func setupView() {
         selectionStyle = .none
         backgroundColor = .white
+
         iconContainer.do {
             $0.layer.cornerRadius = 5
+            $0.clipsToBounds = true
+        }
+
+        iconImageView.do {
+            $0.contentMode = .scaleAspectFit
         }
 
         label.do {
             $0.font = .systemFont(ofSize: 16, weight: .medium)
             $0.textColor = .black
         }
-        
+
         chevronImageView.do {
             $0.image = UIImage(systemName: "chevron.right")?.withTintColor(.gray, renderingMode: .alwaysOriginal)
         }
@@ -75,20 +113,20 @@ final class SettingCell: UITableViewCell {
         iconContainer.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.size.equalTo(30)
-            $0.top.bottom.equalToSuperview().inset(10).priority(.medium)
+            $0.centerY.equalToSuperview()
         }
 
         iconImageView.snp.makeConstraints {
-            $0.size.equalTo(20)
             $0.center.equalToSuperview()
+            $0.size.equalTo(20)
         }
 
         label.snp.makeConstraints {
             $0.leading.equalTo(iconContainer.snp.trailing).offset(16)
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalTo(chevronImageView.snp.leading).offset(-8)
             $0.centerY.equalToSuperview()
         }
-        
+
         chevronImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().offset(-16)
