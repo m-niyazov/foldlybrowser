@@ -54,8 +54,8 @@ private extension SettingsAboutAppViewController {
             $0.contentInset.top = 30
             $0.showsVerticalScrollIndicator = false
             $0.allowsMultipleSelection = false
-            $0.register(cellWithClass: SettingsAppVersionCell.self)
             $0.register(cellWithClass: SettingVersionCell.self)
+            $0.register(cellWithClass: SettingsAppVersionCell.self)
         }
     }
 
@@ -99,7 +99,7 @@ extension SettingsAboutAppViewController {
             cell.render(data)
             return cell
         case .link(let data):
-            let cell = tableView.dequeueCell(withClass: SettingCell.self, for: indexPath)
+            let cell = tableView.dequeueCell(withClass: SettingsAppVersionCell.self, for: indexPath)
             cell.render(data)
             return cell
         }
