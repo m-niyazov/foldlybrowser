@@ -91,9 +91,6 @@
         }
       }
     },
-    "Key" : {
-      "extractionState" : "manual"
-    },
     "paywall.annual" : {
 
     },
@@ -129,6 +126,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Current"
+          }
+        }
+      }
+    },
+    "settings.aboutApp.navigationTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About App"
           }
         }
       }
@@ -357,6 +364,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Authorization"
+          }
+        }
+      }
+    },
+    "settings.password.navigationTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
           }
         }
       }

@@ -59,7 +59,7 @@ private extension SettingsPasswordViewController {
     }
 
     func setupNavigationBar() {
-        navigationItem.title = .init(localized: "settings.appearance.navigationTitle")
+        navigationItem.title = .init(localized: "settings.password.navigationTitle")
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
 

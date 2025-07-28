@@ -60,7 +60,7 @@ private extension SettingsAboutAppViewController {
     }
 
     func setupNavigationBar() {
-        navigationItem.title = .init(localized: "settings.appearance.navigationTitle")
+        navigationItem.title = .init(localized: "settings.aboutApp.navigationTitle")
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
 
