@@ -11,6 +11,8 @@ import XCoordinator
 enum SettingsRoute: Route {
     case settings
     case settingsAppearance
+    case settingsPassword
+    case settingsAboutApp
     case paywall
     case shareApp
     case dismiss
@@ -54,14 +56,19 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
         case .spAlert(let spAlert):
             return .presentSPAlert(spAlert)
         case let .webView(urlLink, navigationTitle):
-         //   let webView = webView(urlLink, navigationTitle)
-            // return .present(webView)
+            let webView = webView(urlLink, navigationTitle)
             return .none()
         case .openSafari(let url):
             return .openSafari(url: url)
         case .settingsAppearance:
             let settingsAppearance = settingsAppearance()
             return .push(settingsAppearance)
+        case .settingsPassword:
+            let settingsPassword = settingsPassword()
+            return .push(settingsPassword)
+        case .settingsAboutApp:
+            let settingsAboutApp = settingsAboutApp()
+            return .push(settingsAboutApp)
         }
     }
 
@@ -70,10 +77,9 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
         return paywall
     }
 
-//    func webView(_ url: URL, _ navigationTitle: String) -> UIViewController {
-//        let webView = WebViewBuilder.build(url, navigationTitle)
-//        return UINavigationController(rootViewController: webView)
-//    }
+    func webView(_ url: URL, _ navigationTitle: String) -> UIViewController {
+        return UIViewController()
+    }
     
     private func settings() -> UIViewController {
         let settings = SettingsBuilder.build(
@@ -90,5 +96,21 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
             analyticService: dependencies.analyticService
         )
         return settingsAppearance
+    }
+    
+    private func settingsPassword() -> UIViewController {
+        let settingsPassword = SettingsPasswordBuilder.build(
+            router: weakRouter,
+            analyticService: dependencies.analyticService
+        )
+        return settingsPassword
+    }
+    
+    private func settingsAboutApp() -> UIViewController {
+        let settingsAboutApp = SettingsAboutAppBuilder.build(
+            router: weakRouter,
+            analyticService: dependencies.analyticService
+        )
+        return settingsAboutApp
     }
 }
