@@ -8,6 +8,16 @@
 import UIKit
 import WebKit
 
+protocol WebpageOutputlegate: AnyObject {
+    func webpageDidStartLoading()
+    func webpageDidFinishLoading()
+}
+
+protocol WebpageInputDelegateDelegate: AnyObject {
+    func webpageDidStartLoading()
+    func webpageDidFinishLoading()
+}
+
 protocol WebpageViewControllerProtocol: AnyObject {
     func render(url: URL)
 }
@@ -42,6 +52,10 @@ final class WebpageViewController: UIViewController, WebpageViewControllerProtoc
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+
+    deinit {
+        print("deioinfdie")
     }
 
     // MARK: - Methods

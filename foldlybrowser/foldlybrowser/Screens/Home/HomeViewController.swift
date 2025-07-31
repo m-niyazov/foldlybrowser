@@ -19,7 +19,8 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
     // swiftlint:disable implicitly_unwrapped_optional
     var presenter: HomePresenterProtocol!
     // swiftlint:enable implicitly_unwrapped_optional
-    
+    var props: HomeProps?
+
     // MARK: - Views
     var homeView = HomeView()
     var webPageContainerView = UIView()
@@ -41,11 +42,13 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
 
     // MARK: - Methods
     func render(_ props: HomeProps) {
+        self.props = props
         homeView.render(props)
         bottomSearchBar.render(props.bottomSearchBar)
     }
 
     func update(_ props: HomeProps) {
+        self.props = props
         homeView.update(props)
         toggleWebPageContainerView(show: props.isNeedToShowWebPage)
     }
@@ -115,6 +118,7 @@ private extension HomeViewController {
                 self.webPageContainerView.alpha = 0
             }) { _ in
                 self.webPageContainerView.isHidden = true
+                self.props?.removeAndDismissWebPage()
             }
         }
     }

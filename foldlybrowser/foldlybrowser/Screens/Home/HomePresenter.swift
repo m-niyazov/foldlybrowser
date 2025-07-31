@@ -29,7 +29,7 @@ final class HomePresenter: HomePresenterProtocol {
     }
 
     func loadData() {
-        var props: HomeProps = .init(
+        let props: HomeProps = .init(
             sections: [
                 .init(type: .header(.init(tappedAppSettingsButton: didTapSettings))),
                 .init(type: .searchTrends),
@@ -61,7 +61,10 @@ final class HomePresenter: HomePresenterProtocol {
                 didTapMoveForwardPage: didTapMoveForwardPage,
                 didTapSavePage: didTapSavePage
             ),
-            isNeedToShowWebPage: false
+            isNeedToShowWebPage: false,
+            removeAndDismissWebPage: { [weak self] in
+                self?.router.trigger(.dismissWebpage)
+            }
         )
         self.props = props
         view?.render(props)

@@ -11,6 +11,7 @@ import XCoordinator
 enum HomeRoute: Route {
     case home
     case webpage(requestString: String)
+    case dismissWebpage
     case paywall
     case alert(Alert)
     case appReview
@@ -19,6 +20,7 @@ enum HomeRoute: Route {
 
 final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
     private let dependencies: Dependencies
+    private var embeddedWebpageController: WebpageViewController?
 
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
@@ -39,9 +41,16 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
             return .appReview()
         case .webpage(let requestString):
             let webpage = webpage(requestString: requestString)
+            embeddedWebpageController = webpage
             return .embed(
                 webpage, in: (rootViewController.visibleViewController as? HomeViewController)!.webPageContainerView
             )
+        case .dismissWebpage:
+            embeddedWebpageController?.willMove(toParent: nil)
+            embeddedWebpageController?.view.removeFromSuperview()
+            embeddedWebpageController?.removeFromParent()
+            embeddedWebpageController = nil
+            return .none()
         case .settings:
             let settings = settingsCoordinator()
             return .present(settings)

@@ -8,6 +8,13 @@
 import Foundation
 import XCoordinator
 
+protocol WebpageLogicDelegate: AnyObject {
+    func webpageDidStartLoading()
+    func webpageDidFinishLoading()
+    func webpageDidGoBackEnabled(_ enabled: Bool)
+    func webpageDidGoForwardEnabled(_ enabled: Bool)
+}
+
 protocol WebpagePresenterProtocol: AnyObject {
     func loadData()
 }
@@ -17,6 +24,7 @@ final class WebpagePresenter: WebpagePresenterProtocol {
     // MARK: - Properties
 
     private weak var view: WebpageViewControllerProtocol?
+    weak var delegate: WebpageLogicDelegate?
     private let router: WeakRouter<HomeRoute>
     private let requestString: String
 
