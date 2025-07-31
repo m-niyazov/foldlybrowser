@@ -19,6 +19,7 @@ final class HomeBottomSearchBar: UIView {
     private let searchTextFieldContainer = UIStackView()
     private var searchTextFieldContainerWidthEqualConstraint: Constraint!
     private var searchTextFieldContainerWidthLessConstraint: Constraint!
+    private var bottomContainerConstraint: Constraint!
     private var widthEqualConstraint: Constraint!
     let searchTextField = UITextField()
     private let searchEngineIcon = UIImageView()
@@ -34,10 +35,11 @@ final class HomeBottomSearchBar: UIView {
     private let menuButton = UIButton(type: .system)
 
     // MARK: – Public callbacks
+    var didTapSearch: ((String) -> Void)?
     var didTapHome: (() -> Void)?
     var didTapBack: (() -> Void)?
-    var didTapMenu: (() -> Void)?
-    var didTapSearch: ((String) -> Void)?
+    var didTapForward: (() -> Void)?
+    var didTapSave: (() -> Void)?
 
     // MARK: – Init
     override init(frame: CGRect) {
@@ -53,6 +55,10 @@ final class HomeBottomSearchBar: UIView {
     func render(_ props: HomeProps.HomeBottomSearchBarProps) {
         didTapSearch = props.didTapSearch
         didTapHome = props.didTapHome
+        didTapBack = props.didTapMoveBackPage
+        didTapForward = props.didTapMoveForwardPage
+        didTapSave = props.didTapSavePage
+
     }
 
     func makeSearchBarActive(keyboardHeight: CGFloat) {
@@ -141,8 +147,12 @@ private extension HomeBottomSearchBar {
         }
 
         leadingButtonsStackView.do {
-            $0.spacing = 10
+            $0.spacing = 15
             $0.axis = .horizontal
+        }
+
+        bottomContainer.do {
+            $0.alpha = 0
         }
 
         [backButton, menuButton, forwardButton].forEach {
@@ -161,6 +171,7 @@ private extension HomeBottomSearchBar {
                 ),
                 for: .normal
             )
+            $0.addTarget(self, action: #selector(tapBack), for: .touchUpInside)
         }
 
         forwardButton.do {
@@ -171,18 +182,8 @@ private extension HomeBottomSearchBar {
                 ),
                 for: .normal
             )
+            $0.addTarget(self, action: #selector(tapForward), for: .touchUpInside)
         }
-
-        menuButton.do {
-            $0.setImage(
-                .init(
-                    systemName: "ellipsis",
-                    withConfiguration: UIImage.SymbolConfiguration(pointSize: 14, weight: .medium)
-                ),
-                for: .normal
-            )
-        }
-
 
         homeButton.do {
             $0.setImage(.cmHomeIcon.withRenderingMode(.alwaysOriginal), for: .normal)
@@ -224,6 +225,7 @@ private extension HomeBottomSearchBar {
             $0.tintColor = .black
             $0.layer.cornerRadius = 20
             $0.layer.masksToBounds = true
+            $0.addTarget(self, action: #selector(tapSave), for: .touchUpInside)
         }
 
     }
@@ -277,7 +279,8 @@ private extension HomeBottomSearchBar {
 
         bottomContainer.snp.makeConstraints {
             $0.top.equalTo(searchTextFieldContainer.snp.bottom).offset(10)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            bottomContainerConstraint = $0.bottom.equalToSuperview().offset(50).constraint
         }
 
         homeButton.snp.makeConstraints {
@@ -305,16 +308,26 @@ private extension HomeBottomSearchBar {
 
 
     // MARK: – Actions
+    @objc func tapHome() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut]) {
+            self.searchTextField.text = ""
+            self.bottomContainer.alpha = 0
+            self.bottomContainerConstraint.update(offset: 50)
+            self.superview?.layoutIfNeeded()
+        }
+        didTapHome?()
+    }
+
     @objc func tapBack() {
         didTapBack?()
     }
 
-    @objc func tapMenu() {
-        didTapMenu?()
+    @objc func tapForward() {
+        didTapForward?()
     }
 
-    @objc func tapHome() {
-        didTapHome?()
+    @objc func tapSave() {
+        didTapSave?()
     }
 }
 
@@ -323,10 +336,16 @@ extension HomeBottomSearchBar: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         didTapSearch?(textField.text ?? "")
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseIn]) {
+            self.bottomContainer.alpha = 1
+            self.bottomContainerConstraint.update(offset: 0)
+        }
         return true
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        searchTextField.textAlignment = .left
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
+        searchTextField.textAlignment = .center
     }
 }

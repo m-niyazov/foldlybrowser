@@ -54,7 +54,13 @@ final class HomePresenter: HomePresenterProtocol {
                     buttontype: .importFolder,
                     select: nil))
                      )],
-            bottomSearchBar: .init(didTapSearch: didTapSearch, didTapHome: didTapHome),
+            bottomSearchBar: .init(
+                didTapSearch: didTapSearch,
+                didTapHome: didTapHome,
+                didTapMoveBackPage: didTapMoveBackPage,
+                didTapMoveForwardPage: didTapMoveForwardPage,
+                didTapSavePage: didTapSavePage
+            ),
             isNeedToShowWebPage: false
         )
         self.props = props
@@ -65,6 +71,18 @@ final class HomePresenter: HomePresenterProtocol {
         self.props?.isNeedToShowWebPage = true
         updateViewProps()
         router.trigger(.webpage(requestString: searchingText))
+    }
+
+    func didTapMoveBackPage() {
+
+    }
+
+    func didTapMoveForwardPage() {
+
+    }
+
+    func didTapSavePage() {
+
     }
 
     func didTapHome() {

@@ -66,5 +66,8 @@ struct HomeProps {
     struct HomeBottomSearchBarProps {
         var didTapSearch: ((String) -> Void)?
         var didTapHome: (() -> Void)?
+        var didTapMoveBackPage: (() -> Void)?
+        var didTapMoveForwardPage: (() -> Void)?
+        var didTapSavePage: (() -> Void)?
     }
 }

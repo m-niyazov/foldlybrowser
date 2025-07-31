@@ -38,7 +38,12 @@ final class WebpageViewController: UIViewController, WebpageViewControllerProtoc
         addViews()
         setupConstraints()
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+
     // MARK: - Methods
 
     func render(url: URL) {
