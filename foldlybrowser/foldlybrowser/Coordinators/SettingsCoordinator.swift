@@ -10,28 +10,26 @@ import XCoordinator
 
 enum SettingsRoute: Route {
     case settings
-    case settingsAppearance
+    case settingsSearchEngine
     case settingsPassword
     case settingsAboutApp
+    case settingsLanguages
+    case telegram
+    case email
     case paywall
-    case shareApp
-    case dismiss
-    case chatTab
-    case profile(UIAlertController)
-    case alert(Alert)
-    case spAlert(SPAlertConfig)
-    case webView(URL, String)
+    case privacyPolicy
+    case termOfUse
     case openSafari(URL)
 }
 
 final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
     private let dependencies: Dependencies
-
+    
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
         super.init(initialRoute: .settings)
     }
-
+    
     override func prepareTransition(for route: SettingsRoute) -> NavigationTransition {
         switch route {
         case .settings:
@@ -40,43 +38,42 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
         case .paywall:
             let paywall = paywallCoordinator()
             return .present(paywall)
-        case .shareApp:
-       //     let ac = UIActivityViewController(activityItems: [AppConstants.appStoreURL], applicationActivities: nil)
-          //  return .present(ac)
-            return .none()
-        case .dismiss:
-            return .dismiss()
-        case .chatTab:
-            rootViewController.tabBarController?.selectedIndex = 0
-            return .none()
-        case .profile(let alertController):
-            return .present(alertController)
-        case .alert(let alert):
-            return .presentAlert(alert)
-        case .spAlert(let spAlert):
-            return .presentSPAlert(spAlert)
-        case let .webView(urlLink, navigationTitle):
-            let webView = webView(urlLink, navigationTitle)
-            return .none()
         case .openSafari(let url):
             return .openSafari(url: url)
-        case .settingsAppearance:
-            let settingsAppearance = settingsAppearance()
-            return .push(settingsAppearance)
+        case .settingsSearchEngine:
+            let settingsSearchEngine = settingsSearchEngine()
+            return .push(settingsSearchEngine)
         case .settingsPassword:
             let settingsPassword = settingsPassword()
             return .push(settingsPassword)
         case .settingsAboutApp:
             let settingsAboutApp = settingsAboutApp()
             return .push(settingsAboutApp)
+        case .settingsLanguages:
+            settingsLanguages()
+            return .none()
+        case .telegram:
+            telegram()
+            return .none()
+        case .email:
+            email()
+            return .none()
+        case .privacyPolicy:
+            guard let privacyPolicyUrl = URL(string: AppConstants.privacyPolicyURL)
+            else { return .none() }
+            return .openSafari(url: privacyPolicyUrl)
+        case .termOfUse:
+            guard let termsOfUseURL = URL(string: AppConstants.termsOfUseURL)
+            else { return .none() }
+            return .openSafari(url: termsOfUseURL)
         }
     }
-
+    
     func paywallCoordinator() -> PaywallCoordinator {
         let paywall = PaywallCoordinator(dependencies: dependencies, context: .settings)
         return paywall
     }
-
+    
     func webView(_ url: URL, _ navigationTitle: String) -> UIViewController {
         return UIViewController()
     }
@@ -90,12 +87,12 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
         return settings
     }
     
-    private func settingsAppearance() -> UIViewController {
-        let settingsAppearance = SettingsAppearanceBuilder.build(
+    private func settingsSearchEngine() -> UIViewController {
+        let settingsSearchEngine = SettingsSearchEngineBuilder.build(
             router: weakRouter,
             analyticService: dependencies.analyticService
         )
-        return settingsAppearance
+        return settingsSearchEngine
     }
     
     private func settingsPassword() -> UIViewController {
@@ -112,5 +109,35 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
             analyticService: dependencies.analyticService
         )
         return settingsAboutApp
+    }
+    
+    private func settingsLanguages() {
+        if let url = URL(string: "App-Prefs:root=General&path=LANGUAGE_AND_REGION") {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    private func email() {
+        let supportEmail = AppConstants.supportMail
+        if let url = URL(string: "\(supportEmail)") {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
+    private func telegram() {
+        let supportTelegramDomain = AppConstants.supportTelegramDomain
+        let supportTelegram = AppConstants.supportTelegram
+        
+        if let url = URL(string: supportTelegramDomain) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else if let webURL = URL(string: supportTelegram) {
+                UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SettingColorsCell: UITableViewCell {
+final class SettingSearchEngineCell: UITableViewCell {
 
     // MARK: - Views
     private let colorView = UIView()
@@ -34,10 +34,10 @@ final class SettingColorsCell: UITableViewCell {
     }
 
     // MARK: - Configuration
-    func render(_ data: SettingsAppearanceProps.SettingColorCell, userSelectedColor: UIColor?) {
+    func render(_ data: SettingsSearchEngineProps.SettingSearchEngineCell, userSelectedSearchEngine: SearchEngineType) {
         colorView.backgroundColor = data.color
-        label.text = data.text
-        checkmarkImageView.isHidden = (data.color != userSelectedColor)
+        label.text = data.type.name
+        checkmarkImageView.isHidden = (data.type != userSelectedSearchEngine)
     }
     
     func setChecked(_ checked: Bool) {

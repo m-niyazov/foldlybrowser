@@ -52,7 +52,7 @@ private extension SettingsAboutAppPresenter {
             items: [
                 .version(makeVersionCell(
                     title: "settings.aboutApp.current",
-                    version: "2.7.63")
+                    version: AppConstants.currentVersion)
                 )
             ]
         ),
@@ -93,12 +93,10 @@ private extension SettingsAboutAppPresenter {
 // MARK: - Actions
 private extension SettingsAboutAppPresenter {
     func openPrivacyPolicy() {
-        guard let url = URL(string: "https://www.google.com") else { return }
-        router.trigger(.webView(url, ""))
+        router.trigger(.privacyPolicy)
     }
     
     func openTermOfUse() {
-        guard let url = URL(string: "https://www.google.com") else { return }
-        router.trigger(.webView(url, ""))
+        router.trigger(.termOfUse)
     }
 }

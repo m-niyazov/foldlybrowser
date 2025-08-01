@@ -70,27 +70,21 @@ private extension SettingsPresenter {
             sectionDesctiption: .init(localized: "settings.app.section.description"),
             items: [
                 .settingCell(makeCell(
-                    title: "settings.appearance",
-                    icon: "heart.fill",
-                    color: UIColor.systemRed,
-                    action: appearanceTapped)
-                ),
-                .settingCell(makeCell(
-                    title: "settings.sounds",
-                    icon: "square.and.arrow.up.fill",
-                    color: UIColor.systemBlue,
-                    action: soundsTapped)
+                    title: "settings.searchEngine",
+                    icon: "magnifyingglass",
+                    color: UIColor.systemYellow,
+                    action: settingsSearchEngineTapped)
                 ),
                 .settingCell(makeCell(
                     title: "settings.authorization",
-                    icon: "envelope.fill",
+                    icon: "lock.fill",
                     color: UIColor.systemGreen,
                     action: authorizationTapped)
                 ),
                 .settingCell(makeCell(
                     title: "settings.languages",
-                    icon: "applescript.fill",
-                    color: UIColor.brown,
+                    icon: "globe",
+                    color: UIColor.gray,
                     action: languagesTapped)
                 )
             ]
@@ -103,21 +97,21 @@ private extension SettingsPresenter {
             sectionDesctiption: .init(localized: "settings.feedback.section.description"),
             items: [
                 .settingCell(makeCell(
-                    title: "settings.contactUs",
-                    icon: "heart.fill",
-                    color: UIColor.systemRed,
-                    action: contactUsTapped)
+                    title: "settings.supportTelegramChat",
+                    icon: "paperplane.fill",
+                    color: UIColor.systemCyan,
+                    action: emailContactUsTapped)
                 ),
                 .settingCell(makeCell(
-                    title: "settings.contactUs",
-                    icon: "square.and.arrow.up.fill",
-                    color: UIColor.systemBlue,
-                    action: contactUsTapped)
+                    title: "settings.email",
+                    icon: "envelope.fill",
+                    color: UIColor.systemOrange,
+                    action: emailContactUsTapped)
                 ),
                 .settingCell(makeCell(
                     title: "settings.aboutApp",
-                    icon: "envelope.fill",
-                    color: UIColor.systemGreen,
+                    icon: "info.circle",
+                    color: UIColor.mint,
                     action: aboutAppTapped)
                 )
             ]
@@ -140,12 +134,8 @@ private extension SettingsPresenter {
         
     }
     
-    func appearanceTapped() {
-        router.trigger(.settingsAppearance)
-    }
-    
-    func soundsTapped() {
-        
+    func settingsSearchEngineTapped() {
+        router.trigger(.settingsSearchEngine)
     }
     
     func authorizationTapped() {
@@ -153,11 +143,15 @@ private extension SettingsPresenter {
     }
     
     func languagesTapped() {
-        
+        router.trigger(.settingsLanguages)
     }
     
-    func contactUsTapped() {
-        
+    func telegramContactUsTapped() {
+        router.trigger(.telegram)
+    }
+    
+    func emailContactUsTapped() {
+        router.trigger(.email)
     }
     
     func aboutAppTapped() {
