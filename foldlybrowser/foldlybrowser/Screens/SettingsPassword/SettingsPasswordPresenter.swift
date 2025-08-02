@@ -71,7 +71,7 @@ private extension SettingsPasswordPresenter {
     func makePasswordCell(title: LocalizedStringResource, action: @escaping () -> Void) -> SettingPropsPasswordCell {
         return SettingPropsPasswordCell(
             text: .init(localized: title),
-            select: action
+            switched: action
         )
     }
 }

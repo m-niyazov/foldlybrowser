@@ -4,7 +4,19 @@
     "" : {
 
     },
+    "bing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bing"
+          }
+        }
+      }
+    },
     "colors.blue" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -87,6 +99,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yellow"
+          }
+        }
+      }
+    },
+    "duckDuckGo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DuckDuckGo"
+          }
+        }
+      }
+    },
+    "google" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google"
           }
         }
       }
@@ -194,83 +228,6 @@
         }
       }
     },
-    "settings.appearance" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appearance"
-          }
-        }
-      }
-    },
-    "settings.appearance.automatic" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatic"
-          }
-        }
-      }
-    },
-    "settings.appearance.colors.section.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a background color that you like."
-          }
-        }
-      }
-    },
-    "settings.appearance.colors.section.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Colors"
-          }
-        }
-      }
-    },
-    "settings.appearance.navigationTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appearance"
-          }
-        }
-      }
-    },
-    "settings.appearance.theme.section.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The application theme will be synchronized with the system theme."
-          }
-        }
-      }
-    },
-    "settings.appearance.theme.section.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Theme"
-          }
-        }
-      }
-    },
     "settings.authenticatorPro" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -293,13 +250,13 @@
         }
       }
     },
-    "settings.contactUs" : {
+    "settings.email" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Contact Us"
+            "value" : "Email"
           }
         }
       }
@@ -418,6 +375,83 @@
         }
       }
     },
+    "settings.searchEngine" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Engine"
+          }
+        }
+      }
+    },
+    "settings.searchEngine.automatic" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic"
+          }
+        }
+      }
+    },
+    "settings.searchEngine.automatic.section.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The application search engine will be synchronized with the system search engine."
+          }
+        }
+      }
+    },
+    "settings.searchEngine.automatic.section.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        }
+      }
+    },
+    "settings.searchEngine.engine.section.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a search engine that you like."
+          }
+        }
+      }
+    },
+    "settings.searchEngine.engine.section.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Engine"
+          }
+        }
+      }
+    },
+    "settings.searchEngine.navigationTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Engine"
+          }
+        }
+      }
+    },
     "settings.sounds" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -429,12 +463,34 @@
         }
       }
     },
+    "settings.supportTelegramChat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram Chat (Support)"
+          }
+        }
+      }
+    },
     "settings.termOfUse" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Term of Use"
+          }
+        }
+      }
+    },
+    "yandex" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yandex"
           }
         }
       }
