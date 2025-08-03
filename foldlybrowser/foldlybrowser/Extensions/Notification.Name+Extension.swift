@@ -33,5 +33,7 @@ extension NSNotification.Name {
         NSNotification.Name(rawValue: "webpageDidUpdateURL")
     }
 
-
+    static var webViewDidScroll: NSNotification.Name {
+        NSNotification.Name(rawValue: "webViewDidScroll")
+    }
 }

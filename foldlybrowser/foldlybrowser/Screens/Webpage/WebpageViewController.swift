@@ -33,6 +33,8 @@ final class WebpageViewController: UIViewController, WebpageViewControllerProtoc
     
     // MARK: - Views
     var webView: WKWebView!
+    private let scrollThreshold: CGFloat = 50
+    private var lastNotifiedOffsetY: CGFloat = 0
 
     // MARK: - Lifecycle
 
@@ -90,6 +92,8 @@ private extension WebpageViewController {
     func setupView() {
         webView.do {
             $0.allowsBackForwardNavigationGestures = true
+            $0.scrollView.delegate = self
+            lastNotifiedOffsetY = webView.scrollView.contentOffset.y
             $0.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         }
     }
@@ -105,7 +109,7 @@ private extension WebpageViewController {
 }
 
 
-extension WebpageViewController: WKNavigationDelegate {
+extension WebpageViewController: WKNavigationDelegate, UIScrollViewDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         NotificationCenter.default.post(
             name: .webpageDidUpdateProgress,
@@ -126,9 +130,39 @@ extension WebpageViewController: WKNavigationDelegate {
             object: nil,
             userInfo: ["url": webView.url?.absoluteString ?? ""]
         )
+        postScrollNotification(hideBottomBar: false)
     }
 
-    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-        print("📡 Committed navigation to: \(webView.url?.absoluteString ?? "nil")")
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Вычисляем границы «бесконечного» скролла:
+        let topBounceLimit = -scrollView.adjustedContentInset.top
+        let bottomBounceLimit = scrollView.contentSize.height + scrollView.adjustedContentInset.bottom - scrollView.bounds.height
+
+        // Если мы в зоне bounce (притянули дальше верхней или нижней границы) — не шлём уведомление
+        let y = scrollView.contentOffset.y
+        guard y >= topBounceLimit, y <= bottomBounceLimit else {
+            return
+        }
+
+        // Теперь остальная ваша логика с порогом
+        let adjustedY = y + scrollView.adjustedContentInset.top
+        let delta = adjustedY - lastNotifiedOffsetY
+
+        if delta > scrollThreshold {
+            postScrollNotification(hideBottomBar: true)
+            lastNotifiedOffsetY = adjustedY
+        }
+        else if delta < -scrollThreshold {
+            postScrollNotification(hideBottomBar: false)
+            lastNotifiedOffsetY = adjustedY
+        }
+    }
+
+    private func postScrollNotification(hideBottomBar: Bool) {
+        NotificationCenter.default.post(
+            name: .webViewDidScroll,
+            object: nil,
+            userInfo: ["isNeedToHide": hideBottomBar]
+        )
     }
 }

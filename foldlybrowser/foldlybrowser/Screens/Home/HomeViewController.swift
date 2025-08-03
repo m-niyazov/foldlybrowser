@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 protocol HomeViewControllerProtocol: AnyObject {
     func render(_ props: HomeProps)
@@ -25,6 +26,7 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
     var homeView = HomeView()
     var webPageContainerView = UIView()
     let bottomSearchBar = HomeBottomSearchBar()
+    private var bottomSearchBarConstraint: Constraint?
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -85,16 +87,30 @@ private extension HomeViewController {
         }
 
         webPageContainerView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(bottomSearchBar.snp.top)
         }
 
         bottomSearchBar.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            bottomSearchBarConstraint = $0.bottom.equalToSuperview().constraint
         }
     }
-    
+
+    @objc private func handleWebViewScroll(_ note: Notification) {
+        guard let hide = note.userInfo?["isNeedToHide"] as? Bool else { return }
+
+        UIView.animate(withDuration: 0.25, delay: 0, options: [
+            hide ? .curveEaseIn : .curveEaseOut
+        ]) {
+            self.bottomSearchBarConstraint?.update(offset: hide ? 150 : 0)
+            self.bottomSearchBar.alpha = hide ? 0 : 1
+            self.view.layoutIfNeeded()
+        }
+
+    }
+
     func toggleWebPageContainerView(show: Bool) {
         if show {
             bottomSearchBar.endEditing(true)
@@ -103,7 +119,7 @@ private extension HomeViewController {
             webPageContainerView.isHidden = false
             webPageContainerView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
             webPageContainerView.alpha = 0
-
+            NotificationCenter.default.addObserver(self, selector: #selector(handleWebViewScroll(_:)), name: .webViewDidScroll, object: nil)
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut]) {
                 self.webPageContainerView.transform = .identity
                 self.webPageContainerView.alpha = 1
@@ -112,6 +128,8 @@ private extension HomeViewController {
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseIn], animations: {
                 self.webPageContainerView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
                 self.webPageContainerView.alpha = 0
+                self.bottomSearchBarConstraint?.update(offset: 0)
+                NotificationCenter.default.removeObserver(self, name: .webViewDidScroll, object: nil)
             }) { _ in
                 self.webPageContainerView.isHidden = true
                 self.props?.removeAndDismissWebPage()

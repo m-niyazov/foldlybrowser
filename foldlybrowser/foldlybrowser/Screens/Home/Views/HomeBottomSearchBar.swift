@@ -36,8 +36,6 @@ final class HomeBottomSearchBar: UIView {
     private let contentView = UIView()
 
     private let searchTextFieldContainer = UIStackView()
-    private var searchTextFieldContainerWidthEqualConstraint: Constraint!
-    private var searchTextFieldContainerWidthLessConstraint: Constraint!
     private var bottomContainerConstraint: Constraint!
     private var widthEqualConstraint: Constraint!
     let searchTextField = UITextField()
@@ -140,11 +138,6 @@ private extension HomeBottomSearchBar {
 
         contentView.do {
             $0.backgroundColor = .none
-        }
-
-        bluryBackground.do {
-            $0.layer.borderColor = UIColor.systemGray5.cgColor
-            $0.layer.borderWidth = 1
         }
 
         progressView.do {
