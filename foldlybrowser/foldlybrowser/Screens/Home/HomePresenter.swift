@@ -19,16 +19,26 @@ final class HomePresenter: HomePresenterProtocol {
 
     private weak var view: HomeViewControllerProtocol?
     private let router: WeakRouter<HomeRoute>
+    private var userDefaultState: UserDefaultsState
     private var props: HomeProps?
 
     // MARK: - Initialize
 
-    init(view: HomeViewControllerProtocol, router: WeakRouter<HomeRoute>) {
+    init(view: HomeViewControllerProtocol,
+         router: WeakRouter<HomeRoute>,
+         userDefaultState: UserDefaultsState) {
         self.view = view
         self.router = router
+        self.userDefaultState = userDefaultState
+ //       setupObservers()
+    }
+
+    deinit {
+   //     removeObservers()
     }
 
     func loadData() {
+        userDefaultState.selectedSearchEngine = .google
         let props: HomeProps = .init(
             sections: [
                 .init(type: .header(.init(tappedAppSettingsButton: didTapSettings))),
@@ -56,6 +66,7 @@ final class HomePresenter: HomePresenterProtocol {
                      )],
             bottomSearchBar: .init(
                 isWebviewActive: false,
+                selectedSearchEngine: userDefaultState.selectedSearchEngine,
                 didTapSearch: didTapSearch,
                 didTapHome: didTapHome,
                 didTapMoveBackPage: didTapMoveBackPage,
@@ -121,9 +132,22 @@ final class HomePresenter: HomePresenterProtocol {
         }
     }
 }
-
-// MARK: - Private Methods
-
-private extension HomePresenter {
-
-}
+//
+//// MARK: - Private Methods
+//
+//private extension HomePresenter {
+//    func setupObservers() {
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(didTapMoveBackPage),
+//            name: .didTapMoveBackPage,
+//            object: nil
+//        )
+//
+//    }
+//    
+//    func removeObservers() {
+//        NotificationCenter.default.removeObserver(self)
+//    }
+//
+//}

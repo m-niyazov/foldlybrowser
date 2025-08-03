@@ -1,4 +1,4 @@
-// 
+//
 //  WebpageViewController.swift
 //  foldlybrowser
 //
@@ -112,5 +112,23 @@ extension WebpageViewController: WKNavigationDelegate {
             object: nil,
             userInfo: ["progress": 1.0]
         )
+
+        NotificationCenter.default.post(
+            name: .webpageDidUpdateURL,
+            object: nil,
+            userInfo: ["url": webView.url?.absoluteString ?? ""]
+        )
+    }
+
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        NotificationCenter.default.post(
+            name: .webpageDidUpdateURL,
+            object: nil,
+            userInfo: ["url": webView.url?.absoluteString ?? ""]
+        )
+    }
+
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        print("📡 Committed navigation to: \(webView.url?.absoluteString ?? "nil")")
     }
 }

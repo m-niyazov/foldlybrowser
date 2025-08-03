@@ -63,11 +63,18 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
     }
 
     private func home() -> HomeViewController {
-        return HomeBuilder.build(router: weakRouter)
+        return HomeBuilder.build(
+            router: weakRouter,
+            userDefaultState: dependencies.userDefaultState
+        )
     }
 
     private func webpage(requestString: String) -> WebpageViewController {
-        return WebpageBuilder.build(router: weakRouter, requestString: requestString)
+        return WebpageBuilder.build(
+            router: weakRouter,
+            requestString: requestString,
+            userDefaultState: dependencies.userDefaultState
+        )
     }
     
     private func settingsCoordinator() -> SettingsCoordinator {

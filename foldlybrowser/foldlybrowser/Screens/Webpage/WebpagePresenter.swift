@@ -26,16 +26,19 @@ final class WebpagePresenter: WebpagePresenterProtocol {
     private weak var view: WebpageViewControllerProtocol?
     weak var delegate: WebpageLogicDelegate?
     private let router: WeakRouter<HomeRoute>
+    private let userDefaultState: UserDefaultsState
     private let requestString: String
 
     // MARK: - Initialize
 
     init(view: WebpageViewControllerProtocol,
          router: WeakRouter<HomeRoute>,
-         requestString: String) {
+         requestString: String,
+         userDefaultState: UserDefaultsState) {
         self.view = view
         self.router = router
         self.requestString = requestString
+        self.userDefaultState = userDefaultState
         setupObservers()
     }
 
@@ -44,9 +47,13 @@ final class WebpagePresenter: WebpagePresenterProtocol {
     }
 
     func loadData() {
-        view?.render(url: .init(string: "https://www.google.com/search?q=\(requestString)")!)
-    }
+        let urlToLoad = SearchURLBuilder.buildURL(
+            from: requestString,
+            using: userDefaultState.selectedSearchEngine
+        )
+        view?.render(url: urlToLoad)
 
+    }
 }
 
 // MARK: - Private Methods
@@ -90,6 +97,10 @@ private extension WebpagePresenter {
     @objc func didTapSearchWhileWebviewActive(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
               let searchingText = userInfo["searchingText"] as? String else { return }
-        view?.render(url: .init(string: "https://www.google.com/search?q=\(searchingText)")!)
+        let urlToLoad = SearchURLBuilder.buildURL(
+            from: searchingText,
+            using: userDefaultState.selectedSearchEngine
+        )
+        view?.render(url: urlToLoad)
     }
 }

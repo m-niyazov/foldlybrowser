@@ -28,4 +28,10 @@ extension NSNotification.Name {
     static var didTapSearchWhileWebviewActive: NSNotification.Name {
         NSNotification.Name(rawValue: "didTapSearchWhileWebviewActive")
     }
+    
+    static var webpageDidUpdateURL: NSNotification.Name {
+        NSNotification.Name(rawValue: "webpageDidUpdateURL")
+    }
+
+
 }

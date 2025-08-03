@@ -19,6 +19,16 @@ final class HomeBottomSearchBar: UIView {
          }
      }
 
+    private var selectedSearchEngine: SearchEngine? {
+        didSet {
+            if oldValue != selectedSearchEngine {
+                setSearchEngineIconImage()
+            }
+        }
+    }
+
+    private var currentURL: URL?
+
     // MARK: – Subviews
     private let bluryBackground = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     private let progressView = UIProgressView(progressViewStyle: .default)
@@ -64,7 +74,7 @@ final class HomeBottomSearchBar: UIView {
 
     func render(_ props: HomeProps.HomeBottomSearchBarProps) {
         self.isWebviewActive = props.isWebviewActive
-        self.searchEngineIcon.image = .duckSEngineIcon
+        self.selectedSearchEngine = props.selectedSearchEngine
         didTapSearch = props.didTapSearch
         didTapHome = props.didTapHome
         didTapBack = props.didTapMoveBackPage
@@ -74,7 +84,7 @@ final class HomeBottomSearchBar: UIView {
 
     func update(_ props: HomeProps.HomeBottomSearchBarProps) {
         self.isWebviewActive = props.isWebviewActive
-        self.searchEngineIcon.image = .googleSEngineIcon
+        self.selectedSearchEngine = props.selectedSearchEngine
     }
 
     func webviewStateChanged(_ isActive: Bool) {
@@ -82,6 +92,7 @@ final class HomeBottomSearchBar: UIView {
             setupWebpageObserver()
         } else {
             removeWebpageObserver()
+            currentURL = nil
             searchTextField.text = String()
             progressView.progress = .zero
         }
@@ -269,7 +280,22 @@ private extension HomeBottomSearchBar {
             $0.layer.masksToBounds = true
             $0.addTarget(self, action: #selector(tapSave), for: .touchUpInside)
         }
+    }
 
+    func setSearchEngineIconImage() {
+        guard let selectedSearchEngine = self.selectedSearchEngine else {
+            return
+        }
+        switch selectedSearchEngine {
+        case .google:
+            searchEngineIcon.image = .googleSEngineIcon
+        case .duckduckgo:
+            searchEngineIcon.image = .duckSEngineIcon
+        case .bing:
+            searchEngineIcon.image = .bingSEngineIcon
+        case .yandex:
+            searchEngineIcon.image = .yandexSEngineIcon
+        }
     }
 
     func addSubviews() {
@@ -387,10 +413,18 @@ extension HomeBottomSearchBar {
             name: .webpageDidUpdateProgress,
             object: nil
         )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleURLUpdate(_:)),
+            name: .webpageDidUpdateURL,
+            object: nil
+        )
     }
 
     func removeWebpageObserver(){
         NotificationCenter.default.removeObserver(self, name: .webpageDidUpdateProgress, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .webpageDidUpdateURL, object: nil)
     }
 
     @objc private func webpageDidUpdateProgress(_ notification: Notification) {
@@ -402,22 +436,45 @@ extension HomeBottomSearchBar {
             progressView.setProgress(Float(progress), animated: true)
         }
     }
+
+    @objc private func handleURLUpdate(_ notification: Notification) {
+        if let urlString = notification.userInfo?["url"] as? String,
+           let url = URL(string: urlString) {
+            currentURL = url
+            searchTextField.text = SearchURLBuilder.displayNonEditing(url)
+        }
+    }
+
 }
 
 // MARK: – UITextFieldDelegate
 extension HomeBottomSearchBar: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        didTapSearch?(textField.text ?? "")
-        textField.endEditing(true)
-        return true
+        if isWebviewActive == false,
+           let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+           text.isEmpty {
+            textField.endEditing(true)
+            return false
+        } else {
+            didTapSearch?(textField.text ?? "")
+            textField.endEditing(true)
+            return true
+        }
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-//        searchTextField.textAlignment = .left
+        guard let url = currentURL, let engine = selectedSearchEngine else {
+            return
+        }
+        textField.text = SearchURLBuilder.displayEditing(url, engine: engine)
+        textField.selectAll(nil)
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // searchTextField.textAlignment = .center
+        guard let url = currentURL else {
+            return
+        }
+        textField.text = SearchURLBuilder.displayNonEditing(url)
     }
 }

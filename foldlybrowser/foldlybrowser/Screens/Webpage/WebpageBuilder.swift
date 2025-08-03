@@ -10,12 +10,16 @@ import XCoordinator
 
 final class WebpageBuilder {
     
-    static func build(router: WeakRouter<HomeRoute>, requestString: String) -> WebpageViewController {
+    static func build(
+        router: WeakRouter<HomeRoute>,
+        requestString: String,
+        userDefaultState: UserDefaultsState) -> WebpageViewController {
         let view = WebpageViewController()
         let presenter = WebpagePresenter(
             view: view,
             router: router,
-            requestString: requestString
+            requestString: requestString,
+            userDefaultState: userDefaultState
         )
 
         view.presenter = presenter
