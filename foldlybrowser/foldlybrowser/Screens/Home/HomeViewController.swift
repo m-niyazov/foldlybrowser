@@ -24,6 +24,7 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
 
     // MARK: - Views
     var homeView = HomeView()
+    let bluryTopStatusBarBackground = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     var webPageContainerView = UIView()
     let bottomSearchBar = HomeBottomSearchBar()
     private var bottomSearchBarConstraint: Constraint?
@@ -36,6 +37,11 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
         addViews()
         setupConstraints()
         hideTabBar()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     func hideTabBar() {
@@ -79,9 +85,15 @@ private extension HomeViewController {
         view.addSubview(homeView)
         view.addSubview(webPageContainerView)
         view.addSubview(bottomSearchBar)
+        view.addSubview(bluryTopStatusBarBackground)
     }
     
     func setupConstraints() {
+        bluryTopStatusBarBackground.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
+        }
+
         homeView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -116,6 +128,7 @@ private extension HomeViewController {
             bottomSearchBar.endEditing(true)
         }
         if show && webPageContainerView.isHidden == true {
+            bluryTopStatusBarBackground.isHidden = false
             webPageContainerView.isHidden = false
             webPageContainerView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
             webPageContainerView.alpha = 0
@@ -125,6 +138,7 @@ private extension HomeViewController {
                 self.webPageContainerView.alpha = 1
             }
         } else if show == false {
+            bluryTopStatusBarBackground.isHidden = true
             UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseIn], animations: {
                 self.webPageContainerView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
                 self.webPageContainerView.alpha = 0
