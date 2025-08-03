@@ -1,4 +1,4 @@
-// 
+//
 //  WebpagePresenter.swift
 //  foldlybrowser
 //
@@ -20,7 +20,7 @@ protocol WebpagePresenterProtocol: AnyObject {
 }
 
 final class WebpagePresenter: WebpagePresenterProtocol {
-    
+
     // MARK: - Properties
 
     private weak var view: WebpageViewControllerProtocol?
@@ -36,14 +36,49 @@ final class WebpagePresenter: WebpagePresenterProtocol {
         self.view = view
         self.router = router
         self.requestString = requestString
+        setupObservers()
+    }
+
+    deinit {
+        removeObservers()
     }
 
     func loadData() {
         view?.render(url: .init(string: "https://www.google.com/search?q=\(requestString)")!)
     }
+
+
 }
 
 // MARK: - Private Methods
 
 private extension WebpagePresenter {
+    func setupObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didTapMoveBackPage),
+            name: .didTapMoveBackPage,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didTapMoveForwardPage),
+            name: .didTapMoveForwardPage,
+            object: nil
+        )
+    }
+
+    func removeObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc func didTapMoveBackPage() {
+        view?.webView.goBack()
+    }
+
+    @objc func didTapMoveForwardPage() {
+        view?.webView.goForward()
+    }
+
 }

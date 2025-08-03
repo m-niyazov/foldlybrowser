@@ -55,6 +55,7 @@ final class HomePresenter: HomePresenterProtocol {
                     select: nil))
                      )],
             bottomSearchBar: .init(
+                isWebviewActive: false,
                 didTapSearch: didTapSearch,
                 didTapHome: didTapHome,
                 didTapMoveBackPage: didTapMoveBackPage,
@@ -70,26 +71,39 @@ final class HomePresenter: HomePresenterProtocol {
         view?.render(props)
     }
 
+    func didTapSettings() {
+        router.trigger(.settings)
+    }
+
     func didTapSearch(_ searchingText: String) {
         self.props?.isNeedToShowWebPage = true
+        self.props?.bottomSearchBar.isWebviewActive = true
         updateViewProps()
         router.trigger(.webpage(requestString: searchingText))
     }
 
     func didTapMoveBackPage() {
-
+        NotificationCenter.default.post(
+            name: .didTapMoveBackPage,
+            object: nil,
+            userInfo: nil
+        )
     }
 
     func didTapMoveForwardPage() {
-
+        NotificationCenter.default.post(
+            name: .didTapMoveForwardPage,
+            object: nil,
+            userInfo: nil
+        )
     }
 
     func didTapSavePage() {
-
     }
 
     func didTapHome() {
         self.props?.isNeedToShowWebPage = false
+        self.props?.bottomSearchBar.isWebviewActive = false
         updateViewProps()
     }
 
@@ -103,7 +117,5 @@ final class HomePresenter: HomePresenterProtocol {
 // MARK: - Private Methods
 
 private extension HomePresenter {
-    func didTapSettings() {
-        router.trigger(.settings)
-    }
+
 }

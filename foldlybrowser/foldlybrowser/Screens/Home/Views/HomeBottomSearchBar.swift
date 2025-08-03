@@ -11,8 +11,17 @@ import SnapKit
 
 final class HomeBottomSearchBar: UIView {
 
+    var isWebviewActive: Bool = false {
+         didSet {
+             if oldValue != isWebviewActive {
+                 webviewStateChanged(isWebviewActive)
+             }
+         }
+     }
+
     // MARK: – Subviews
     private let bluryBackground = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    private let progressView = UIProgressView(progressViewStyle: .default)
     private var bluryBackgroundHeightConstraint: Constraint!
     private let contentView = UIView()
 
@@ -23,6 +32,7 @@ final class HomeBottomSearchBar: UIView {
     private var widthEqualConstraint: Constraint!
     let searchTextField = UITextField()
     private let searchEngineIcon = UIImageView()
+    private let searchEngineIconContainer = UIView()
     private let refreshButton = UIButton(type: .system)
 
     private let bottomContainer = UIView()
@@ -53,29 +63,59 @@ final class HomeBottomSearchBar: UIView {
     }
 
     func render(_ props: HomeProps.HomeBottomSearchBarProps) {
+        self.isWebviewActive = props.isWebviewActive
+        self.searchEngineIcon.image = .duckSEngineIcon
         didTapSearch = props.didTapSearch
         didTapHome = props.didTapHome
         didTapBack = props.didTapMoveBackPage
         didTapForward = props.didTapMoveForwardPage
         didTapSave = props.didTapSavePage
-
     }
 
-    func makeSearchBarActive(keyboardHeight: CGFloat) {
+    func update(_ props: HomeProps.HomeBottomSearchBarProps) {
+        self.isWebviewActive = props.isWebviewActive
+        self.searchEngineIcon.image = .googleSEngineIcon
+    }
+
+    func webviewStateChanged(_ isActive: Bool) {
+        if isActive {
+            setupWebpageObserver()
+        } else {
+            removeWebpageObserver()
+            searchTextField.text = String()
+            progressView.progress = .zero
+        }
+        UIView.animate(withDuration: 0.25, delay: 0, options: [
+            isActive ? .curveEaseIn : .curveEaseOut
+        ]) {
+            self.searchEngineIconContainer.isHidden = isActive
+            self.searchTextFieldContainer.layoutMargins.left = isActive ? 0 : 6
+            self.searchTextFieldContainer.layoutMargins.right = !isActive ? 0 : 6
+            self.refreshButton.isHidden = !isActive
+
+            self.bottomContainer.alpha = isActive ? 1 : 0
+            self.bottomContainerConstraint.update(offset: isActive ? 0 : 50)
+            if isActive == false {
+                self.superview?.layoutIfNeeded()
+            }
+        } completion: { isFinished in
+            guard isFinished == true else {
+                return
+            }
+            self.bottomContainer.isHidden = !isActive
+        }
+    }
+
+    func keyboardWillShow(keyboardHeight: CGFloat) {
         UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseIn]) {
             self.bluryBackgroundHeightConstraint.update(offset: keyboardHeight + 45 + 20)
-            // self.searchTextFieldContainerWidthLessConstraint.update(priority: .low)
-            // self.searchTextFieldContainerWidthEqualConstraint.activate()
-            // self.searchTextFieldContainerWidthEqualConstraint.update(priority: .high)
             self.superview?.layoutIfNeeded()
         }
     }
 
-    func makeSearchBarInActive() {
+    func keyboardWillHide() {
         UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseInOut]) {
             self.bluryBackgroundHeightConstraint.update(offset: 0)
-            // self.searchTextFieldContainerWidthLessConstraint.update(priority: .high)
-            // self.searchTextFieldContainerWidthEqualConstraint.deactivate()
             self.superview?.layoutIfNeeded()
         }
     }
@@ -96,21 +136,32 @@ private extension HomeBottomSearchBar {
             $0.layer.borderWidth = 1
         }
 
+        progressView.do {
+            $0.sizeToFit()
+            $0.backgroundColor = .clear
+            $0.trackTintColor = .clear
+            $0.progressTintColor = UIColor.accent
+        }
+
         searchTextFieldContainer.do {
-            $0.backgroundColor = .white
+            $0.backgroundColor = UIColor.systemGray6
             $0.axis = .horizontal
             $0.distribution = .fill
             $0.alignment = .center
             $0.layer.cornerRadius = 25
             $0.layer.borderColor = UIColor.systemGray5.cgColor
             $0.layer.borderWidth = 1
-            $0.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+            $0.layer.masksToBounds = true
+            $0.layoutMargins = UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 0)
             $0.isLayoutMarginsRelativeArrangement = true
+        }
+
+        searchEngineIconContainer.do {
+            $0.backgroundColor = .none
         }
 
         searchEngineIcon.do {
             $0.contentMode = .scaleAspectFit
-            $0.image = .googleIcon
         }
 
         refreshButton.do {
@@ -125,22 +176,19 @@ private extension HomeBottomSearchBar {
         }
 
         searchTextField.do {
-            let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 12, height: 10))
-            let rightView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 12, height: 10))
+            let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 15, height: 10))
+            let rightView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 15, height: 10))
             $0.leftView = leftView
             $0.rightView = rightView
             $0.rightViewMode = .unlessEditing
             $0.leftViewMode = .always
-            $0.backgroundColor = .none
+            $0.backgroundColor = .white
             $0.clearButtonMode = .whileEditing
             $0.placeholder = "Search or enter website"
-//            $0.attributedPlaceholder = NSAttributedString(
-//                string: "Search or enter website",
-//                attributes: [NSAttributedString.Key.foregroundColor : UIColor.systemGray]
-//            )
             $0.borderStyle = .none
-            $0.clearButtonMode = .whileEditing
-            $0.layer.cornerRadius = 0
+            $0.layer.cornerRadius = 25
+            $0.layer.borderColor = UIColor.systemGray5.cgColor
+            $0.layer.borderWidth = 1
             $0.font = .preferredFont(forTextStyle: .body)
             $0.returnKeyType = .go
             $0.delegate = self
@@ -188,14 +236,14 @@ private extension HomeBottomSearchBar {
         homeButton.do {
             $0.setImage(.cmHomeIcon.withRenderingMode(.alwaysOriginal), for: .normal)
             var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 12, bottom: 10, trailing: 12)
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
             configuration.imagePadding = 8
             configuration.attributedTitle = .init("Back To Home", attributes: .init([
-                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13, weight: .semibold),
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold),
                 NSAttributedString.Key.foregroundColor: UIColor.accent.cgColor,
             ]))
             $0.configuration = configuration
-            $0.backgroundColor = .accent.withAlphaComponent(0.08)
+            $0.backgroundColor = .accent.withAlphaComponent(0.07)
             $0.tintColor = .accent
             $0.layer.cornerRadius = 20
             $0.layer.masksToBounds = true
@@ -204,18 +252,11 @@ private extension HomeBottomSearchBar {
 
 
         saveButton.do {
-            $0.setImage(
-                .init(
-                    systemName: "plus",
-                    withConfiguration: UIImage.SymbolConfiguration(pointSize:11, weight: .bold)
-                ),
-                for: .normal
-            )
             var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 12, bottom: 10, trailing: 12)
-            configuration.imagePadding = 5
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
+            //  configuration.imagePadding = 5
             configuration.attributedTitle = .init("Save", attributes: .init([
-                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13, weight: .semibold),
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold),
                 NSAttributedString.Key.foregroundColor: UIColor.black.cgColor,
             ]))
             $0.configuration = configuration
@@ -231,10 +272,12 @@ private extension HomeBottomSearchBar {
     }
 
     func addSubviews() {
+        addSubview(progressView)
         addSubview(bluryBackground)
         bluryBackground.contentView.addSubview(contentView)
         contentView.addSubview(searchTextFieldContainer)
-        searchTextFieldContainer.addArrangedSubview(searchEngineIcon)
+        searchTextFieldContainer.addArrangedSubview(searchEngineIconContainer)
+        searchEngineIconContainer.addSubview(searchEngineIcon)
         searchTextFieldContainer.addArrangedSubview(searchTextField)
         searchTextFieldContainer.addArrangedSubview(refreshButton)
         contentView.addSubview(bottomContainer)
@@ -244,8 +287,13 @@ private extension HomeBottomSearchBar {
         bottomContainer.addSubview(homeButton)
         bottomContainer.addSubview(saveButton)
 
+        progressView.snp.makeConstraints {
+            $0.height.equalTo(1)
+            $0.top.leading.trailing.equalToSuperview()
+        }
+
         bluryBackground.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalTo(progressView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().priority(.low)
             self.bluryBackgroundHeightConstraint = $0.height.greaterThanOrEqualTo(0).constraint
@@ -257,15 +305,17 @@ private extension HomeBottomSearchBar {
             $0.bottom.lessThanOrEqualTo(safeAreaLayoutGuide)
         }
 
+        searchEngineIconContainer.snp.makeConstraints {
+            $0.size.equalTo(33)
+        }
+
         searchEngineIcon.snp.makeConstraints {
-            $0.size.equalTo(25)
+            $0.edges.equalToSuperview()
         }
 
         searchTextFieldContainer.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.width.equalToSuperview()
-            // self.searchTextFieldContainerWidthLessConstraint = $0.width.lessThanOrEqualToSuperview().priority(.high).constraint
-            // self.searchTextFieldContainerWidthEqualConstraint = $0.width.equalToSuperview().priority(.low).constraint
             $0.centerX.equalToSuperview()
         }
 
@@ -274,7 +324,7 @@ private extension HomeBottomSearchBar {
         }
 
         refreshButton.snp.makeConstraints {
-            $0.size.equalTo(30)
+            $0.size.equalTo(33)
         }
 
         bottomContainer.snp.makeConstraints {
@@ -290,11 +340,13 @@ private extension HomeBottomSearchBar {
 
         leadingButtonsStackView.snp.makeConstraints {
             $0.leading.equalToSuperview()
+            $0.trailing.equalTo(homeButton.snp.leading).offset(-5)
             $0.centerY.equalTo(homeButton)
         }
 
         saveButton.snp.makeConstraints {
             $0.trailing.equalToSuperview()
+            $0.leading.equalTo(homeButton.snp.trailing).offset(5)
             $0.height.equalTo(homeButton)
             $0.centerY.equalTo(homeButton)
         }
@@ -306,15 +358,8 @@ private extension HomeBottomSearchBar {
         }
     }
 
-
     // MARK: – Actions
     @objc func tapHome() {
-        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut]) {
-            self.searchTextField.text = ""
-            self.bottomContainer.alpha = 0
-            self.bottomContainerConstraint.update(offset: 50)
-            self.superview?.layoutIfNeeded()
-        }
         didTapHome?()
     }
 
@@ -329,6 +374,33 @@ private extension HomeBottomSearchBar {
     @objc func tapSave() {
         didTapSave?()
     }
+
+}
+
+// MARK: – Observers
+extension HomeBottomSearchBar {
+    func setupWebpageObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(webpageDidUpdateProgress(_:)),
+            name: .webpageDidUpdateProgress,
+            object: nil
+        )
+    }
+
+    func removeWebpageObserver(){
+        NotificationCenter.default.removeObserver(self, name: .webpageDidUpdateProgress, object: nil)
+    }
+
+    @objc private func webpageDidUpdateProgress(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let progress = userInfo["progress"] as? Double else { return }
+        if progress >= 1.0 {
+            progressView.setProgress(0.0, animated: false)
+        } else {
+            progressView.setProgress(Float(progress), animated: true)
+        }
+    }
 }
 
 // MARK: – UITextFieldDelegate
@@ -336,16 +408,14 @@ extension HomeBottomSearchBar: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         didTapSearch?(textField.text ?? "")
-        UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseIn]) {
-            self.bottomContainer.alpha = 1
-            self.bottomContainerConstraint.update(offset: 0)
-        }
         return true
     }
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        searchTextField.textAlignment = .left
+//        searchTextField.textAlignment = .left
     }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
-        searchTextField.textAlignment = .center
+        // searchTextField.textAlignment = .center
     }
 }

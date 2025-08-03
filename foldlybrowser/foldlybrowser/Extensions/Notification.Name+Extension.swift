@@ -12,11 +12,16 @@ extension NSNotification.Name {
     static var subscribedFromSettings: NSNotification.Name {
         NSNotification.Name(rawValue: "subscribedFromSettings")
     }
-    static var createdNewCharacter: NSNotification.Name {
-        NSNotification.Name(rawValue: "createdNewCharacter")
+
+    static var didTapMoveBackPage: NSNotification.Name {
+        NSNotification.Name(rawValue: "didTapMoveBackPage")
     }
 
-    static var buyedFromMain: NSNotification.Name {
-        NSNotification.Name(rawValue: "buyedFromMain")
+    static var didTapMoveForwardPage: NSNotification.Name {
+        NSNotification.Name(rawValue: "didTapMoveForwardPage")
+    }
+
+    static var webpageDidUpdateProgress: NSNotification.Name {
+        NSNotification.Name(rawValue: "webpageDidUpdateProgress")
     }
 }

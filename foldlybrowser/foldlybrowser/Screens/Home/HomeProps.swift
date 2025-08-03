@@ -65,6 +65,7 @@ struct HomeProps {
     }
 
     struct HomeBottomSearchBarProps {
+        var isWebviewActive: Bool
         var didTapSearch: ((String) -> Void)?
         var didTapHome: (() -> Void)?
         var didTapMoveBackPage: (() -> Void)?

@@ -19,6 +19,7 @@ protocol WebpageInputDelegateDelegate: AnyObject {
 }
 
 protocol WebpageViewControllerProtocol: AnyObject {
+    var webView: WKWebView! { get }
     func render(url: URL)
 }
 
@@ -39,6 +40,7 @@ final class WebpageViewController: UIViewController, WebpageViewControllerProtoc
         webView = WKWebView()
         webView.navigationDelegate = self
         view = webView
+
     }
 
     override func viewDidLoad() {
@@ -55,14 +57,29 @@ final class WebpageViewController: UIViewController, WebpageViewControllerProtoc
     }
 
     deinit {
-        print("deioinfdie")
+        webView.removeObserver(self, forKeyPath: "estimatedProgress")
     }
 
+    override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey : Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
+        if keyPath == "estimatedProgress" {
+            let progress = webView.estimatedProgress
+            NotificationCenter.default.post(
+                name: .webpageDidUpdateProgress,
+                object: nil,
+                userInfo: ["progress": progress]
+            )
+        }
+    }
+    
     // MARK: - Methods
 
     func render(url: URL) {
         webView.load(URLRequest(url: url))
-        webView.allowsBackForwardNavigationGestures = true
     }
 }
 
@@ -71,6 +88,10 @@ final class WebpageViewController: UIViewController, WebpageViewControllerProtoc
 private extension WebpageViewController {
     
     func setupView() {
+        webView.do {
+            $0.allowsBackForwardNavigationGestures = true
+            $0.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
+        }
     }
     
     func addViews() {
@@ -85,4 +106,11 @@ private extension WebpageViewController {
 
 
 extension WebpageViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        NotificationCenter.default.post(
+            name: .webpageDidUpdateProgress,
+            object: nil,
+            userInfo: ["progress": 1.0]
+        )
+    }
 }

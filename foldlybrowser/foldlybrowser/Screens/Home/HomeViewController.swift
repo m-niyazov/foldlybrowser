@@ -50,15 +50,16 @@ final class HomeViewController: KeyboardHandlingViewController, HomeViewControll
     func update(_ props: HomeProps) {
         self.props = props
         homeView.update(props)
+        bottomSearchBar.render(props.bottomSearchBar)
         toggleWebPageContainerView(show: props.isNeedToShowWebPage)
     }
 
     func keyboardWillShow(keyboardHeight: CGFloat) {
-        bottomSearchBar.makeSearchBarActive(keyboardHeight: keyboardHeight)
+        bottomSearchBar.keyboardWillShow(keyboardHeight: keyboardHeight)
     }
 
     func keyboardWillHide() {
-        bottomSearchBar.makeSearchBarInActive()
+        bottomSearchBar.keyboardWillHide()
     }
 }
 
