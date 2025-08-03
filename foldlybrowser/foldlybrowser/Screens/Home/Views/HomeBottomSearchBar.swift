@@ -246,17 +246,18 @@ private extension HomeBottomSearchBar {
         }
 
         homeButton.do {
-            $0.setImage(.cmHomeIcon.withRenderingMode(.alwaysOriginal), for: .normal)
+            $0.setImage(.homeIcon.withTintColor(.black, renderingMode: .alwaysOriginal), for: .normal)
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
             configuration.imagePadding = 8
             configuration.attributedTitle = .init("Back To Home", attributes: .init([
-                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold),
-                NSAttributedString.Key.foregroundColor: UIColor.accent.cgColor,
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13, weight: .medium),
+                NSAttributedString.Key.foregroundColor: UIColor.black,
             ]))
             $0.configuration = configuration
-            $0.backgroundColor = .accent.withAlphaComponent(0.07)
-            $0.tintColor = .accent
+            $0.backgroundColor = UIColor.systemGray5
+            $0.layer.borderColor = UIColor.systemGray5.cgColor
+            $0.layer.borderWidth = 1
             $0.layer.cornerRadius = 20
             $0.layer.masksToBounds = true
             $0.addTarget(self, action: #selector(tapHome), for: .touchUpInside)
@@ -268,7 +269,7 @@ private extension HomeBottomSearchBar {
             configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
             //  configuration.imagePadding = 5
             configuration.attributedTitle = .init("Save", attributes: .init([
-                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold),
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13, weight: .medium),
                 NSAttributedString.Key.foregroundColor: UIColor.black.cgColor,
             ]))
             $0.configuration = configuration
