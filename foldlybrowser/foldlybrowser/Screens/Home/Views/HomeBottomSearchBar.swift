@@ -173,6 +173,7 @@ private extension HomeBottomSearchBar {
                 for: .normal
             )
             $0.tintColor = .black
+            $0.isHidden = true
         }
 
         searchTextField.do {
@@ -408,6 +409,7 @@ extension HomeBottomSearchBar: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         didTapSearch?(textField.text ?? "")
+        textField.endEditing(true)
         return true
     }
 

@@ -71,11 +71,6 @@ private extension HomeViewController {
         view.backgroundColor = .systemGroupedBackground
         keyboardHandlingRootView = view
         toggleWebPageContainerView(show: false)
-//        webPageContainerView.do {
-//            $0.isHidden = true
-//            $0.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height)
-//            $0.alpha = 0
-//        }
     }
     
     func addViews() {

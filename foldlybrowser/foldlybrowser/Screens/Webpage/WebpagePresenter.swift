@@ -47,7 +47,6 @@ final class WebpagePresenter: WebpagePresenterProtocol {
         view?.render(url: .init(string: "https://www.google.com/search?q=\(requestString)")!)
     }
 
-
 }
 
 // MARK: - Private Methods
@@ -67,6 +66,13 @@ private extension WebpagePresenter {
             name: .didTapMoveForwardPage,
             object: nil
         )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didTapSearchWhileWebviewActive(_:)),
+            name: .didTapSearchWhileWebviewActive,
+            object: nil
+        )
     }
 
     func removeObservers() {
@@ -81,4 +87,9 @@ private extension WebpagePresenter {
         view?.webView.goForward()
     }
 
+    @objc func didTapSearchWhileWebviewActive(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let searchingText = userInfo["searchingText"] as? String else { return }
+        view?.render(url: .init(string: "https://www.google.com/search?q=\(searchingText)")!)
+    }
 }

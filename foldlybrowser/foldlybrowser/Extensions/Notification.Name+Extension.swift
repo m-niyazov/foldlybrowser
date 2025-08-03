@@ -24,4 +24,8 @@ extension NSNotification.Name {
     static var webpageDidUpdateProgress: NSNotification.Name {
         NSNotification.Name(rawValue: "webpageDidUpdateProgress")
     }
+
+    static var didTapSearchWhileWebviewActive: NSNotification.Name {
+        NSNotification.Name(rawValue: "didTapSearchWhileWebviewActive")
+    }
 }

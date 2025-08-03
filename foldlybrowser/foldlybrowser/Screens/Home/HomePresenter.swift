@@ -76,10 +76,18 @@ final class HomePresenter: HomePresenterProtocol {
     }
 
     func didTapSearch(_ searchingText: String) {
-        self.props?.isNeedToShowWebPage = true
-        self.props?.bottomSearchBar.isWebviewActive = true
-        updateViewProps()
-        router.trigger(.webpage(requestString: searchingText))
+        if self.props?.bottomSearchBar.isWebviewActive == false {
+            self.props?.isNeedToShowWebPage = true
+            self.props?.bottomSearchBar.isWebviewActive = true
+            updateViewProps()
+            router.trigger(.webpage(requestString: searchingText))
+        } else {
+            NotificationCenter.default.post(
+                name: .didTapSearchWhileWebviewActive,
+                object: nil,
+                userInfo: ["searchingText": searchingText]
+            )
+        }
     }
 
     func didTapMoveBackPage() {
