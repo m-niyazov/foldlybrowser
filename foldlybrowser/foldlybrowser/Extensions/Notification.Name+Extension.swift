@@ -21,6 +21,10 @@ extension NSNotification.Name {
         NSNotification.Name(rawValue: "didTapMoveForwardPage")
     }
 
+    static var didTapMoveRefreshPage: NSNotification.Name {
+        NSNotification.Name(rawValue: "didTapMoveRefreshdPage")
+    }
+
     static var webpageDidUpdateProgress: NSNotification.Name {
         NSNotification.Name(rawValue: "webpageDidUpdateProgress")
     }

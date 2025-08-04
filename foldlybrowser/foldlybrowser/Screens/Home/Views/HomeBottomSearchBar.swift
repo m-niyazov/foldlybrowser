@@ -57,6 +57,7 @@ final class HomeBottomSearchBar: UIView {
     var didTapHome: (() -> Void)?
     var didTapBack: (() -> Void)?
     var didTapForward: (() -> Void)?
+    var didTapRefresh: (() -> Void)?
     var didTapSave: (() -> Void)?
 
     // MARK: – Init
@@ -77,6 +78,7 @@ final class HomeBottomSearchBar: UIView {
         didTapHome = props.didTapHome
         didTapBack = props.didTapMoveBackPage
         didTapForward = props.didTapMoveForwardPage
+        didTapRefresh = props.didTapMoveRefreshPage
         didTapSave = props.didTapSavePage
     }
 
@@ -178,6 +180,7 @@ private extension HomeBottomSearchBar {
             )
             $0.tintColor = .black
             $0.isHidden = true
+            $0.addTarget(self, action: #selector(tapRefresh), for: .touchUpInside)
         }
 
         searchTextField.do {
@@ -392,6 +395,10 @@ private extension HomeBottomSearchBar {
         didTapForward?()
     }
 
+    @objc func tapRefresh() {
+        didTapRefresh?()
+    }
+
     @objc func tapSave() {
         didTapSave?()
     }
@@ -457,12 +464,18 @@ extension HomeBottomSearchBar: UITextFieldDelegate {
         }
     }
 
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        return true
+    }
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         guard let url = currentURL, let engine = selectedSearchEngine else {
             return
         }
         textField.text = SearchURLBuilder.displayEditing(url, engine: engine)
-        textField.selectAll(nil)
+        DispatchQueue.main.async {
+               textField.selectAll(nil)
+           }
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {

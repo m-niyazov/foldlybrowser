@@ -71,6 +71,7 @@ struct HomeProps {
         var didTapHome: (() -> Void)?
         var didTapMoveBackPage: (() -> Void)?
         var didTapMoveForwardPage: (() -> Void)?
+        var didTapMoveRefreshPage: (() -> Void)?
         var didTapSavePage: (() -> Void)?
     }
 }

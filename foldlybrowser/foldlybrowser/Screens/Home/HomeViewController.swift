@@ -118,6 +118,9 @@ private extension HomeViewController {
         ]) {
             self.bottomSearchBarConstraint?.update(offset: hide ? 150 : 0)
             self.bottomSearchBar.alpha = hide ? 0 : 1
+            if hide {
+                self.bottomSearchBar.endEditing(true)
+            }
             self.view.layoutIfNeeded()
         }
 

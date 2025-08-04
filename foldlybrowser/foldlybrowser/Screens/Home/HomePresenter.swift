@@ -71,6 +71,7 @@ final class HomePresenter: HomePresenterProtocol {
                 didTapHome: didTapHome,
                 didTapMoveBackPage: didTapMoveBackPage,
                 didTapMoveForwardPage: didTapMoveForwardPage,
+                didTapMoveRefreshPage: didTapMoveRefreshPage,
                 didTapSavePage: didTapSavePage
             ),
             isNeedToShowWebPage: false,
@@ -112,6 +113,14 @@ final class HomePresenter: HomePresenterProtocol {
     func didTapMoveForwardPage() {
         NotificationCenter.default.post(
             name: .didTapMoveForwardPage,
+            object: nil,
+            userInfo: nil
+        )
+    }
+
+    func didTapMoveRefreshPage() {
+        NotificationCenter.default.post(
+            name: .didTapMoveRefreshPage,
             object: nil,
             userInfo: nil
         )

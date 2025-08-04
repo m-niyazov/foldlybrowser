@@ -76,6 +76,13 @@ private extension WebpagePresenter {
 
         NotificationCenter.default.addObserver(
             self,
+            selector: #selector(didTapMoveRefreshPage),
+            name: .didTapMoveRefreshPage,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
             selector: #selector(didTapSearchWhileWebviewActive(_:)),
             name: .didTapSearchWhileWebviewActive,
             object: nil
@@ -92,6 +99,10 @@ private extension WebpagePresenter {
 
     @objc func didTapMoveForwardPage() {
         view?.webView.goForward()
+    }
+
+    @objc func didTapMoveRefreshPage() {
+        view?.webView.reload()
     }
 
     @objc func didTapSearchWhileWebviewActive(_ notification: Notification) {
