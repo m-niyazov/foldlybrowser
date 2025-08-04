@@ -39,7 +39,11 @@ final class WebpageViewController: UIViewController, WebpageViewControllerProtoc
     // MARK: - Lifecycle
 
     override func loadView() {
-        webView = WKWebView()
+        let config = WKWebViewConfiguration()
+        let preferences = WKWebpagePreferences()
+        preferences.allowsContentJavaScript = true
+        config.defaultWebpagePreferences = preferences
+        webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = self
         view = webView
 
@@ -69,7 +73,13 @@ final class WebpageViewController: UIViewController, WebpageViewControllerProtoc
         context: UnsafeMutableRawPointer?
     ) {
         if keyPath == "estimatedProgress" {
-            let progress = webView.estimatedProgress
+            var progress = webView.estimatedProgress
+            if let url = webView.url?.absoluteString,
+                url.contains("https://www.google.") && url.contains("/search") {
+                 if progress >= 0.89 {
+                     progress = 1.0
+                 }
+             }
             NotificationCenter.default.post(
                 name: .webpageDidUpdateProgress,
                 object: nil,
