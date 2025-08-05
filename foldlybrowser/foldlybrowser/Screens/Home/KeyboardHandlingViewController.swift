@@ -61,9 +61,11 @@ extension KeyboardHandlingViewController {
 // MARK: - UIGestureRecognizerDelegate
 extension KeyboardHandlingViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        guard let scroll = keyboardHandlingRootView else {
-            return true
+        if touch.view is UIControl || touch.view is UITextView || touch.view is UITextField {
+              return false
         }
-        return touch.view?.isDescendant(of: scroll) ?? false
+        return true
     }
+
+
 }

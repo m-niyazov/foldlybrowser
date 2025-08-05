@@ -11,6 +11,7 @@ import XCoordinator
 enum HomeRoute: Route {
     case home
     case webpage(requestString: String)
+    case dismissWebpage
     case paywall
     case alert(Alert)
     case appReview
@@ -19,7 +20,8 @@ enum HomeRoute: Route {
 
 final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
     private let dependencies: Dependencies
-    
+    private var embeddedWebpageController: WebpageViewController?
+  
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
         super.init(initialRoute: .home)
@@ -39,9 +41,16 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
             return .appReview()
         case .webpage(let requestString):
             let webpage = webpage(requestString: requestString)
+            embeddedWebpageController = webpage
             return .embed(
                 webpage, in: (rootViewController.visibleViewController as? HomeViewController)!.webPageContainerView
             )
+        case .dismissWebpage:
+            embeddedWebpageController?.willMove(toParent: nil)
+            embeddedWebpageController?.view.removeFromSuperview()
+            embeddedWebpageController?.removeFromParent()
+            embeddedWebpageController = nil
+            return .none()
         case .settings:
             let settings = settingsCoordinator()
             return .presentFullScreen(settings)
@@ -54,11 +63,18 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
     }
     
     private func home() -> HomeViewController {
-        return HomeBuilder.build(router: weakRouter)
+        return HomeBuilder.build(
+            router: weakRouter,
+            userDefaultState: dependencies.userDefaultState
+        )
     }
     
     private func webpage(requestString: String) -> WebpageViewController {
-        return WebpageBuilder.build(router: weakRouter, requestString: requestString)
+        return WebpageBuilder.build(
+            router: weakRouter,
+            requestString: requestString,
+            userDefaultState: dependencies.userDefaultState
+        )
     }
     
     private func settingsCoordinator() -> SettingsCoordinator {

@@ -12,7 +12,8 @@ struct HomeProps {
     var sections: [Section]
     var bottomSearchBar: HomeBottomSearchBarProps
     var isNeedToShowWebPage: Bool
-    
+    var removeAndDismissWebPage: (() -> Void)
+
     struct Section {
         var type: Cell
     }
@@ -64,7 +65,13 @@ struct HomeProps {
     }
 
     struct HomeBottomSearchBarProps {
+        var isWebviewActive: Bool
+        var selectedSearchEngine: SearchEngine
         var didTapSearch: ((String) -> Void)?
         var didTapHome: (() -> Void)?
+        var didTapMoveBackPage: (() -> Void)?
+        var didTapMoveForwardPage: (() -> Void)?
+        var didTapMoveRefreshPage: (() -> Void)?
+        var didTapSavePage: (() -> Void)?
     }
 }

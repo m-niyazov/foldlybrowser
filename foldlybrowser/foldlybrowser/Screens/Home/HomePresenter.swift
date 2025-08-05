@@ -19,17 +19,27 @@ final class HomePresenter: HomePresenterProtocol {
 
     private weak var view: HomeViewControllerProtocol?
     private let router: WeakRouter<HomeRoute>
+    private var userDefaultState: UserDefaultsState
     private var props: HomeProps?
 
     // MARK: - Initialize
 
-    init(view: HomeViewControllerProtocol, router: WeakRouter<HomeRoute>) {
+    init(view: HomeViewControllerProtocol,
+         router: WeakRouter<HomeRoute>,
+         userDefaultState: UserDefaultsState) {
         self.view = view
         self.router = router
+        self.userDefaultState = userDefaultState
+ //       setupObservers()
+    }
+
+    deinit {
+   //     removeObservers()
     }
 
     func loadData() {
-        var props: HomeProps = .init(
+        userDefaultState.selectedSearchEngine = .google
+        let props: HomeProps = .init(
             sections: [
                 .init(type: .header(.init(tappedAppSettingsButton: didTapSettings))),
                 .init(type: .searchTrends),
@@ -54,21 +64,74 @@ final class HomePresenter: HomePresenterProtocol {
                     buttontype: .importFolder,
                     select: nil))
                      )],
-            bottomSearchBar: .init(didTapSearch: didTapSearch, didTapHome: didTapHome),
-            isNeedToShowWebPage: false
+            bottomSearchBar: .init(
+                isWebviewActive: false,
+                selectedSearchEngine: userDefaultState.selectedSearchEngine,
+                didTapSearch: didTapSearch,
+                didTapHome: didTapHome,
+                didTapMoveBackPage: didTapMoveBackPage,
+                didTapMoveForwardPage: didTapMoveForwardPage,
+                didTapMoveRefreshPage: didTapMoveRefreshPage,
+                didTapSavePage: didTapSavePage
+            ),
+            isNeedToShowWebPage: false,
+            removeAndDismissWebPage: { [weak self] in
+                self?.router.trigger(.dismissWebpage)
+            }
         )
         self.props = props
         view?.render(props)
     }
 
+    func didTapSettings() {
+        router.trigger(.settings)
+    }
+
     func didTapSearch(_ searchingText: String) {
-        self.props?.isNeedToShowWebPage = true
-        updateViewProps()
-        router.trigger(.webpage(requestString: searchingText))
+        if self.props?.bottomSearchBar.isWebviewActive == false {
+            self.props?.isNeedToShowWebPage = true
+            self.props?.bottomSearchBar.isWebviewActive = true
+            updateViewProps()
+            router.trigger(.webpage(requestString: searchingText))
+        } else {
+            NotificationCenter.default.post(
+                name: .didTapSearchWhileWebviewActive,
+                object: nil,
+                userInfo: ["searchingText": searchingText]
+            )
+        }
+    }
+
+    func didTapMoveBackPage() {
+        NotificationCenter.default.post(
+            name: .didTapMoveBackPage,
+            object: nil,
+            userInfo: nil
+        )
+    }
+
+    func didTapMoveForwardPage() {
+        NotificationCenter.default.post(
+            name: .didTapMoveForwardPage,
+            object: nil,
+            userInfo: nil
+        )
+    }
+
+    func didTapMoveRefreshPage() {
+        NotificationCenter.default.post(
+            name: .didTapMoveRefreshPage,
+            object: nil,
+            userInfo: nil
+        )
+    }
+
+    func didTapSavePage() {
     }
 
     func didTapHome() {
         self.props?.isNeedToShowWebPage = false
+        self.props?.bottomSearchBar.isWebviewActive = false
         updateViewProps()
     }
 
@@ -78,11 +141,22 @@ final class HomePresenter: HomePresenterProtocol {
         }
     }
 }
-
-// MARK: - Private Methods
-
-private extension HomePresenter {
-    func didTapSettings() {
-        router.trigger(.settings)
-    }
-}
+//
+//// MARK: - Private Methods
+//
+//private extension HomePresenter {
+//    func setupObservers() {
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(didTapMoveBackPage),
+//            name: .didTapMoveBackPage,
+//            object: nil
+//        )
+//
+//    }
+//    
+//    func removeObservers() {
+//        NotificationCenter.default.removeObserver(self)
+//    }
+//
+//}

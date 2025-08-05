@@ -10,10 +10,17 @@ import XCoordinator
 
 final class HomeBuilder {
     
-    static func build(router: WeakRouter<HomeRoute>) -> HomeViewController {
+    static func build(
+        router: WeakRouter<HomeRoute>,
+        userDefaultState: UserDefaultsState
+    ) -> HomeViewController {
         let view = HomeViewController()
-        let presenter = HomePresenter(view: view, router: router)
-        
+        let presenter = HomePresenter(
+            view: view,
+            router: router,
+            userDefaultState: userDefaultState
+        )
+
         view.presenter = presenter
         return view
     }
