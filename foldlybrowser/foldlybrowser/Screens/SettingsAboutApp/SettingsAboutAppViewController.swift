@@ -48,9 +48,9 @@ private extension SettingsAboutAppViewController {
     func setupView() {
         setupNavigationBar()
 
-        view.backgroundColor = .lightgray1
+        view.backgroundColor = .lightgray
         tableView.do {
-            $0.backgroundColor = .lightgray1
+            $0.backgroundColor = .lightgray
             $0.contentInset.top = 30
             $0.showsVerticalScrollIndicator = false
             $0.allowsMultipleSelection = false
@@ -66,7 +66,7 @@ private extension SettingsAboutAppViewController {
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
-        appearance.backgroundColor = .lightgray1
+        appearance.backgroundColor = .lightgray
         appearance.backgroundEffect = UIBlurEffect(style: .dark)
         appearance.shadowColor = .clear
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]

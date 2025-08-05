@@ -21,12 +21,12 @@ enum HomeRoute: Route {
 final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
     private let dependencies: Dependencies
     private var embeddedWebpageController: WebpageViewController?
-
+  
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
         super.init(initialRoute: .home)
     }
-
+    
     override func prepareTransition(for route: HomeRoute) -> NavigationTransition {
         switch route {
         case .home:
@@ -53,22 +53,22 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
             return .none()
         case .settings:
             let settings = settingsCoordinator()
-            return .present(settings)
+            return .presentFullScreen(settings)
         }
     }
-
+    
     private func paywallCoordinator() -> PaywallCoordinator {
         let paywall = PaywallCoordinator(dependencies: dependencies, context: .main)
         return paywall
     }
-
+    
     private func home() -> HomeViewController {
         return HomeBuilder.build(
             router: weakRouter,
             userDefaultState: dependencies.userDefaultState
         )
     }
-
+    
     private func webpage(requestString: String) -> WebpageViewController {
         return WebpageBuilder.build(
             router: weakRouter,

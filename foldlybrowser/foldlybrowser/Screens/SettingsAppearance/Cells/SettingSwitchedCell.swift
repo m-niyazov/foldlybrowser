@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SettingThemeCell: UITableViewCell {
+final class SettingSwitchedCell: UITableViewCell {
 
     // MARK: - Views
     private let label = UILabel()
@@ -34,7 +34,7 @@ final class SettingThemeCell: UITableViewCell {
     }
 
     // MARK: - Configuration
-    func render(_ data: SettingsAppearanceProps.SettingAppearanceCell) {
+    func render(_ data: SettingsSearchEngineProps.SettingSwitcherCell) {
         label.text = data.text
         switchView.isOn = true
     }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-typealias SettingPropsPasswordCell = SettingsAppearanceProps.SettingAppearanceCell
+typealias SettingPropsPasswordCell = SettingsSearchEngineProps.SettingSwitcherCell
 
 struct SettingsPasswordProps {
     var sections: [Section]

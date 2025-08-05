@@ -1,5 +1,5 @@
 //
-//  SettingsAppearanceBuilder.swift
+//  SettingsSearchEngineBuilder.swift
 //  foldlybrowser
 //
 //  Created by Karpinskii.D.S. on 26.07.2025.
@@ -8,13 +8,13 @@
 import UIKit
 import XCoordinator
 
-final class SettingsAppearanceBuilder {
+final class SettingsSearchEngineBuilder {
     static func build(
         router: WeakRouter<SettingsRoute>,
         analyticService: CompositionalAnalyticService
-    ) -> SettingsAppearanceViewController {
-        let view = SettingsAppearanceViewController()
-        let presenter = SettingsAppearancePresenter(
+    ) -> SettingsSearchEngineViewController {
+        let view = SettingsSearchEngineViewController()
+        let presenter = SettingsSearchEnginePresenter(
             view: view,
             router: router,
             analyticService: analyticService

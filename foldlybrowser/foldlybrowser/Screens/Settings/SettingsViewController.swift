@@ -46,9 +46,9 @@ private extension SettingsViewController {
     func setupView() {
         setupNavigationBar()
 
-        view.backgroundColor = .lightgray1
+        view.backgroundColor = .lightgray
         tableView.do {
-            $0.backgroundColor = .lightgray1
+            $0.backgroundColor = .lightgray
             $0.contentInset.top = 30
             $0.showsVerticalScrollIndicator = false
             $0.allowsMultipleSelection = false
@@ -63,7 +63,7 @@ private extension SettingsViewController {
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
-        appearance.backgroundColor = .lightgray1
+        appearance.backgroundColor = .lightgray
         appearance.backgroundEffect = UIBlurEffect(style: .dark)
         appearance.shadowColor = .clear
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
@@ -71,6 +71,26 @@ private extension SettingsViewController {
 
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
+        let closeButton = UIButton(type: .system)
+        let config = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold)
+        let image = UIImage(systemName: "xmark", withConfiguration: config)
+        closeButton.setImage(image, for: .normal)
+        closeButton.tintColor = .darkGray
+
+        closeButton.backgroundColor = UIColor.systemGray5
+        closeButton.layer.cornerRadius = 14
+        closeButton.clipsToBounds = true
+        closeButton.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
+
+        closeButton.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
+
+        let barButton = UIBarButtonItem(customView: closeButton)
+        navigationItem.rightBarButtonItem = barButton
+    }
+
+    @objc private func closeTapped() {
+        dismiss(animated: true, completion: nil)
     }
 }
 

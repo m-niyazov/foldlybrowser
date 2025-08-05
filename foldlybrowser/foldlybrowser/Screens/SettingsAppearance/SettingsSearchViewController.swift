@@ -1,5 +1,5 @@
 //
-//  SettingsAppearanceViewController.swift
+//  SettingsSearchEngineViewController.swift
 //  foldlybrowser
 //
 //  Created by Karpinskii.D.S. on 26.07.2025.
@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol SettingsAppearanceViewControllerProtocol: AnyObject {
-    func render(_ data: SettingsAppearanceProps)
+protocol SettingsSearchEngineViewControllerProtocol: AnyObject {
+    func render(_ data: SettingsSearchEngineProps)
 }
 
-final class SettingsAppearanceViewController: UITableViewController, SettingsAppearanceViewControllerProtocol {
+final class SettingsSearchEngineViewController: UITableViewController, SettingsSearchEngineViewControllerProtocol {
 
     // MARK: - Properties
-    private(set) var settingsAppearanceData: SettingsAppearanceProps?
-    var presenter: SettingsAppearancePresenterProtocol!
+    private(set) var settingsSearchEngineData: SettingsSearchEngineProps?
+    var presenter: SettingsSearchEnginePresenterProtocol!
     
     // MARK: - Init
        init() {
@@ -33,38 +33,38 @@ final class SettingsAppearanceViewController: UITableViewController, SettingsApp
         setupView()
     }
 
-    // MARK: - SettingsAppearanceViewControllerProtocol
-    func render(_ data: SettingsAppearanceProps) {
-        settingsAppearanceData = data
+    // MARK: - SettingsSearchEngineViewControllerProtocol
+    func render(_ data: SettingsSearchEngineProps) {
+        settingsSearchEngineData = data
         tableView.reloadData()
     }
 }
 
 // MARK: - Private Methods
-private extension SettingsAppearanceViewController {
+private extension SettingsSearchEngineViewController {
 
     func setupView() {
         setupNavigationBar()
 
-        view.backgroundColor = .lightgray1
+        view.backgroundColor = .lightgray
         tableView.do {
-            $0.backgroundColor = .lightgray1
+            $0.backgroundColor = .lightgray
             $0.contentInset.top = 30
             $0.showsVerticalScrollIndicator = false
             $0.allowsMultipleSelection = false
-            $0.register(cellWithClass: SettingThemeCell.self)
-            $0.register(cellWithClass: SettingColorsCell.self)
+            $0.register(cellWithClass: SettingSwitchedCell.self)
+            $0.register(cellWithClass: SettingSearchEngineCell.self)
         }
     }
 
     func setupNavigationBar() {
-        navigationItem.title = .init(localized: "settings.appearance.navigationTitle")
+        navigationItem.title = .init(localized: "settings.searchEngine.navigationTitle")
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
-        appearance.backgroundColor = .lightgray1
+        appearance.backgroundColor = .lightgray
         appearance.backgroundEffect = UIBlurEffect(style: .dark)
         appearance.shadowColor = .clear
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
@@ -76,63 +76,61 @@ private extension SettingsAppearanceViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension SettingsAppearanceViewController {
+extension SettingsSearchEngineViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        settingsAppearanceData?.sections.count ?? 0
+        settingsSearchEngineData?.sections.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        settingsAppearanceData?.sections[section].items.count ?? 0
+        settingsSearchEngineData?.sections[section].items.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let section = settingsAppearanceData?.sections[indexPath.section] else {
+        guard let section = settingsSearchEngineData?.sections[indexPath.section] else {
             return UITableViewCell()
         }
 
         switch section.items[indexPath.row] {
-        case .appearance(let data):
-            let cell = tableView.dequeueCell(withClass: SettingThemeCell.self, for: indexPath)
+        case .automatic(let data):
+            let cell = tableView.dequeueCell(withClass: SettingSwitchedCell.self, for: indexPath)
             cell.render(data)
             return cell
-        case .color(let data):
-            let cell = tableView.dequeueCell(withClass: SettingColorsCell.self, for: indexPath)
-            cell.render(data, userSelectedColor: presenter.userSelectedColor)
+        case .searchEngine(let data):
+            let cell = tableView.dequeueCell(withClass: SettingSearchEngineCell.self, for: indexPath)
+            cell.render(data, userSelectedSearchEngine: presenter.searchEngine)
             return cell
         }
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        settingsAppearanceData?.sections[section].sectionTitle
+        settingsSearchEngineData?.sections[section].sectionTitle
     }
 
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        settingsAppearanceData?.sections[section].sectionDesctiption
+        settingsSearchEngineData?.sections[section].sectionDesctiption
     }
 }
 
 // MARK: - UITableViewDelegate
-extension SettingsAppearanceViewController {
+extension SettingsSearchEngineViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        guard let rowType = settingsAppearanceData?.sections[indexPath.section].items[indexPath.row] else { return }
+        guard let rowType = settingsSearchEngineData?.sections[indexPath.section].items[indexPath.row] else { return }
 
         switch rowType {
-        case .appearance(let data):
-            data.select()
-
-        case .color(let data):
-            presenter.userSelectedColor = data.color
-            data.select()
+        case .automatic(let data):
+            break
+        case .searchEngine(let data):
+            presenter.searchEngine = data.type
 
             for cell in tableView.visibleCells {
-                if let colorCell = cell as? SettingColorsCell,
+                if let colorCell = cell as? SettingSearchEngineCell,
                    let indexPath = tableView.indexPath(for: colorCell),
-                   case let .color(item) = settingsAppearanceData?.sections[indexPath.section].items[indexPath.row] {
-                    colorCell.setChecked(item.color == presenter.userSelectedColor)
+                   case let .searchEngine(item) = settingsSearchEngineData?.sections[indexPath.section].items[indexPath.row] {
+                    colorCell.setChecked(item.type == presenter.searchEngine)
                 }
             }
         }
