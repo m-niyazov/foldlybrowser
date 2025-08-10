@@ -11,12 +11,14 @@ import XCoordinator
 final class SettingsSearchEngineBuilder {
     static func build(
         router: WeakRouter<SettingsRoute>,
+        applicationState: UserDefaultsState,
         analyticService: CompositionalAnalyticService
     ) -> SettingsSearchEngineViewController {
         let view = SettingsSearchEngineViewController()
         let presenter = SettingsSearchEnginePresenter(
             view: view,
             router: router,
+            applicationState: applicationState,
             analyticService: analyticService
         )
         view.presenter = presenter

@@ -32,6 +32,11 @@ final class SettingsViewController: UITableViewController, SettingsViewControlle
         presenter.getData()
         setupView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.largeTitleDisplayMode = .always
+    }
 
     // MARK: - SettingsViewControllerProtocol
     func render(_ data: SettingsProps) {
@@ -58,7 +63,6 @@ private extension SettingsViewController {
 
     func setupNavigationBar() {
         navigationItem.title = .init(localized: "settings.navigationTitle")
-        navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
 
         let appearance = UINavigationBarAppearance()

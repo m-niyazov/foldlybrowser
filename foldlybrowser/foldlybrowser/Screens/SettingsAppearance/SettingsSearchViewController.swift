@@ -32,6 +32,11 @@ final class SettingsSearchEngineViewController: UITableViewController, SettingsS
         presenter.getData()
         setupView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.largeTitleDisplayMode = .never
+    }
 
     // MARK: - SettingsSearchEngineViewControllerProtocol
     func render(_ data: SettingsSearchEngineProps) {
@@ -49,8 +54,8 @@ private extension SettingsSearchEngineViewController {
         view.backgroundColor = .lightgray
         tableView.do {
             $0.backgroundColor = .lightgray
-            $0.contentInset.top = 30
             $0.showsVerticalScrollIndicator = false
+            $0.isScrollEnabled = false
             $0.allowsMultipleSelection = false
             $0.register(cellWithClass: SettingSwitchedCell.self)
             $0.register(cellWithClass: SettingSearchEngineCell.self)
@@ -59,9 +64,7 @@ private extension SettingsSearchEngineViewController {
 
     func setupNavigationBar() {
         navigationItem.title = .init(localized: "settings.searchEngine.navigationTitle")
-        navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.prefersLargeTitles = true
-
+        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
         appearance.backgroundColor = .lightgray
@@ -120,17 +123,14 @@ extension SettingsSearchEngineViewController {
 
         guard let rowType = settingsSearchEngineData?.sections[indexPath.section].items[indexPath.row] else { return }
 
-        switch rowType {
-        case .automatic(let data):
-            break
-        case .searchEngine(let data):
-            presenter.searchEngine = data.type
-
-            for cell in tableView.visibleCells {
-                if let colorCell = cell as? SettingSearchEngineCell,
-                   let indexPath = tableView.indexPath(for: colorCell),
-                   case let .searchEngine(item) = settingsSearchEngineData?.sections[indexPath.section].items[indexPath.row] {
-                    colorCell.setChecked(item.type == presenter.searchEngine)
+        if case .searchEngine(let data) = rowType {
+            presenter.searchEngine = data.searchEngine
+            
+            tableView.visibleCells.forEach { cell in
+                if let searchCell = cell as? SettingSearchEngineCell,
+                   let cellIndexPath = tableView.indexPath(for: searchCell),
+                   case .searchEngine(let item) = settingsSearchEngineData?.sections[cellIndexPath.section].items[cellIndexPath.row] {
+                    searchCell.setChecked(item.searchEngine == presenter.searchEngine)
                 }
             }
         }

@@ -53,19 +53,23 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
             settingsLanguages()
             return .none()
         case .telegram:
-            telegram()
-            return .none()
+            let supportTelegram = AppConstants.supportTelegram
+            guard let url = URL(string: supportTelegram)
+            else { return .none() }
+            return .openSafari(url: url)
         case .email:
-            email()
-            return .none()
+            let supportMail = AppConstants.supportMail
+            guard let url = URL(string: supportMail)
+            else { return .none() }
+            return .openSafari(url: url)
         case .privacyPolicy:
             guard let privacyPolicyUrl = URL(string: AppConstants.privacyPolicyURL)
             else { return .none() }
-            return .openSafari(url: privacyPolicyUrl)
+            return .openSafariInApp(url: privacyPolicyUrl, from: rootViewController)
         case .termOfUse:
             guard let termsOfUseURL = URL(string: AppConstants.termsOfUseURL)
             else { return .none() }
-            return .openSafari(url: termsOfUseURL)
+            return .openSafariInApp(url: termsOfUseURL, from: rootViewController)
         }
     }
     
@@ -90,6 +94,7 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
     private func settingsSearchEngine() -> UIViewController {
         let settingsSearchEngine = SettingsSearchEngineBuilder.build(
             router: weakRouter,
+            applicationState: dependencies.userDefaultState,
             analyticService: dependencies.analyticService
         )
         return settingsSearchEngine
@@ -112,31 +117,9 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
     }
     
     private func settingsLanguages() {
-        if let url = URL(string: "App-Prefs:root=General&path=LANGUAGE_AND_REGION") {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
             if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }
-    }
-    
-    private func email() {
-        let supportEmail = AppConstants.supportMail
-        if let url = URL(string: "\(supportEmail)") {
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }
-    }
-    
-    private func telegram() {
-        let supportTelegramDomain = AppConstants.supportTelegramDomain
-        let supportTelegram = AppConstants.supportTelegram
-        
-        if let url = URL(string: supportTelegramDomain) {
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else if let webURL = URL(string: supportTelegram) {
-                UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url)
             }
         }
     }

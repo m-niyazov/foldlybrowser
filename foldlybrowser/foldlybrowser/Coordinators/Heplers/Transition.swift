@@ -8,6 +8,7 @@
 import StoreKit
 import SPAlert
 import XCoordinator
+import SafariServices
 
 extension Transition {
     static func openSafari(url: URL?) -> Transition {
@@ -17,6 +18,15 @@ extension Transition {
         UIApplication.shared.open(url)
         return .none()
     }
+    
+    static func openSafariInApp(url: URL?, from viewController: UIViewController?) -> Transition {
+        guard let url = url else { return .none() }
+        
+        let safariVC = SFSafariViewController(url: url)
+        viewController?.present(safariVC, animated: true)
+        return .none()
+    }
+
 
     static func appSettings() -> Transition {
         guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
