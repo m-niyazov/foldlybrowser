@@ -38,7 +38,6 @@ final class HomePresenter: HomePresenterProtocol {
     }
 
     func loadData() {
-        userDefaultState.selectedSearchEngine = .google
         let props: HomeProps = .init(
             sections: [
                 .init(type: .header(.init(tappedAppSettingsButton: didTapSettings))),

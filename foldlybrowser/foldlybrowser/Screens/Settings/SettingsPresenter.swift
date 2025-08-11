@@ -100,7 +100,7 @@ private extension SettingsPresenter {
                     title: "settings.supportTelegramChat",
                     icon: "paperplane.fill",
                     color: UIColor.systemCyan,
-                    action: emailContactUsTapped)
+                    action: telegramContactUsTapped)
                 ),
                 .settingCell(makeCell(
                     title: "settings.email",

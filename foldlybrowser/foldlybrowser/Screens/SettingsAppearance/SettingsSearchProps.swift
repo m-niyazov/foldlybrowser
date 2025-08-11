@@ -27,30 +27,8 @@ struct SettingsSearchEngineProps {
     }
     
     struct SettingSearchEngineCell {
-        let type: SearchEngineType
+        let searchEngine: SearchEngine
         let color: UIColor
         let isSelected: Bool
     }
 }
-
-
-enum SearchEngineType: String {
-    case google
-    case bing
-    case duckDuckGo
-    case yandex
-    
-    var name : String {
-        switch self {
-        case .google:
-            return "Google"
-        case .bing:
-            return "Bing"
-        case .duckDuckGo:
-            return "Duck Duck Go"
-        case .yandex:
-            return "Yandex"
-        }
-    }
-}
-

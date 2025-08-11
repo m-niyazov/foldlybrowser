@@ -34,6 +34,11 @@ final class SettingsAboutAppViewController: UITableViewController, SettingsAbout
         presenter.getData()
         setupView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.largeTitleDisplayMode = .never
+    }
 
     // MARK: - SettingsAboutAppViewControllerProtocol
     func render(_ data: SettingsAboutAppProps) {
@@ -51,9 +56,8 @@ private extension SettingsAboutAppViewController {
         view.backgroundColor = .lightgray
         tableView.do {
             $0.backgroundColor = .lightgray
-            $0.contentInset.top = 30
-            $0.showsVerticalScrollIndicator = false
             $0.allowsMultipleSelection = false
+            $0.isScrollEnabled = false
             $0.register(cellWithClass: SettingVersionCell.self)
             $0.register(cellWithClass: SettingsAppVersionCell.self)
         }
@@ -61,8 +65,6 @@ private extension SettingsAboutAppViewController {
 
     func setupNavigationBar() {
         navigationItem.title = .init(localized: "settings.aboutApp.navigationTitle")
-        navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.prefersLargeTitles = true
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()

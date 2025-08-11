@@ -10,7 +10,7 @@ import UIKit
 final class SettingSearchEngineCell: UITableViewCell {
 
     // MARK: - Views
-    private let colorView = UIView()
+    private let engineImageView = UIImageView()
     private let label = UILabel()
     private let checkmarkImageView = UIImageView()
     
@@ -34,10 +34,10 @@ final class SettingSearchEngineCell: UITableViewCell {
     }
 
     // MARK: - Configuration
-    func render(_ data: SettingsSearchEngineProps.SettingSearchEngineCell, userSelectedSearchEngine: SearchEngineType) {
-        colorView.backgroundColor = data.color
-        label.text = data.type.name
-        checkmarkImageView.isHidden = (data.type != userSelectedSearchEngine)
+    func render(_ data: SettingsSearchEngineProps.SettingSearchEngineCell, userSelectedSearchEngine: SearchEngine) {
+        engineImageView.image = UIImage(named: data.searchEngine.iconName)
+        label.text = data.searchEngine.name
+        checkmarkImageView.isHidden = (data.searchEngine != userSelectedSearchEngine)
     }
     
     func setChecked(_ checked: Bool) {
@@ -49,7 +49,7 @@ final class SettingSearchEngineCell: UITableViewCell {
         selectionStyle = .none
         backgroundColor = .white
 
-        colorView.layer.cornerRadius = Layout.colorCornerRadius
+        engineImageView.layer.cornerRadius = Layout.colorCornerRadius
 
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = .black
@@ -59,18 +59,18 @@ final class SettingSearchEngineCell: UITableViewCell {
     }
 
     private func setupLayout() {
-        contentView.addSubview(colorView)
+        contentView.addSubview(engineImageView)
         contentView.addSubview(label)
         contentView.addSubview(checkmarkImageView)
 
-        colorView.snp.makeConstraints {
+        engineImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(Layout.horizontalInset)
             $0.size.equalTo(Layout.colorSize)
             $0.top.bottom.equalToSuperview().inset(Layout.verticalInset).priority(.medium)
         }
 
         label.snp.makeConstraints {
-            $0.leading.equalTo(colorView.snp.trailing).offset(Layout.horizontalInset)
+            $0.leading.equalTo(engineImageView.snp.trailing).offset(Layout.horizontalInset)
             $0.trailing.equalToSuperview().inset(Layout.horizontalInset)
             $0.centerY.equalToSuperview()
         }

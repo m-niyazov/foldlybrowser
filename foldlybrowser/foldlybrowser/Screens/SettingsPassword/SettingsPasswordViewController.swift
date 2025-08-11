@@ -34,6 +34,11 @@ final class SettingsPasswordViewController: UITableViewController, SettingsPassw
         presenter.getData()
         setupView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.largeTitleDisplayMode = .never
+    }
 
     // MARK: - SettingsPasswordViewControllerProtocol
     func render(_ data: SettingsPasswordProps) {
@@ -51,8 +56,8 @@ private extension SettingsPasswordViewController {
         view.backgroundColor = .lightgray
         tableView.do {
             $0.backgroundColor = .lightgray
-            $0.contentInset.top = 30
             $0.showsVerticalScrollIndicator = false
+            $0.isScrollEnabled = false
             $0.allowsMultipleSelection = false
             $0.register(cellWithClass: SettingPasswordCell.self)
         }
@@ -60,8 +65,6 @@ private extension SettingsPasswordViewController {
 
     func setupNavigationBar() {
         navigationItem.title = .init(localized: "settings.password.navigationTitle")
-        navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.prefersLargeTitles = true
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
