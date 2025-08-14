@@ -36,7 +36,7 @@ final class SettingSwitchedCell: UITableViewCell {
     // MARK: - Configuration
     func render(_ data: SettingsSearchEngineProps.SettingSwitcherCell) {
         label.text = data.text
-        switchView.isOn = true
+        switchView.isOn = data.switcherValue
     }
 
     // MARK: - Private Setup

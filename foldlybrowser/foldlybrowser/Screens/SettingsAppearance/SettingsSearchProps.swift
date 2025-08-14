@@ -13,7 +13,7 @@ struct SettingsSearchEngineProps {
     struct Section {
         let sectionTitle: String
         let sectionDesctiption: String
-        let items: [Items]
+        var items: [Items]
     }
 
     enum Items {
@@ -23,7 +23,7 @@ struct SettingsSearchEngineProps {
 
     struct SettingSwitcherCell {
         let text: String
-        let switched: () -> Void
+        var switcherValue: Bool
     }
     
     struct SettingSearchEngineCell {

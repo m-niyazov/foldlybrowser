@@ -403,7 +403,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The application search engine will be synchronized with the system search engine."
+            "value" : "The application search engine will be synchronized with the system."
           }
         }
       }

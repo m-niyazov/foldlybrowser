@@ -12,20 +12,20 @@ protocol SettingsSearchEngineViewControllerProtocol: AnyObject {
 }
 
 final class SettingsSearchEngineViewController: UITableViewController, SettingsSearchEngineViewControllerProtocol {
-
+    
     // MARK: - Properties
     private(set) var settingsSearchEngineData: SettingsSearchEngineProps?
     var presenter: SettingsSearchEnginePresenterProtocol!
     
     // MARK: - Init
-       init() {
-           super.init(style: .insetGrouped)
-       }
-
-       required init?(coder: NSCoder) {
-           super.init(coder: coder)
-       }
-
+    init() {
+        super.init(style: .insetGrouped)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ final class SettingsSearchEngineViewController: UITableViewController, SettingsS
         super.viewWillAppear(animated)
         navigationItem.largeTitleDisplayMode = .never
     }
-
+    
     // MARK: - SettingsSearchEngineViewControllerProtocol
     func render(_ data: SettingsSearchEngineProps) {
         settingsSearchEngineData = data
@@ -47,10 +47,9 @@ final class SettingsSearchEngineViewController: UITableViewController, SettingsS
 
 // MARK: - Private Methods
 private extension SettingsSearchEngineViewController {
-
     func setupView() {
         setupNavigationBar()
-
+        
         view.backgroundColor = .lightgray
         tableView.do {
             $0.backgroundColor = .lightgray
@@ -61,7 +60,7 @@ private extension SettingsSearchEngineViewController {
             $0.register(cellWithClass: SettingSearchEngineCell.self)
         }
     }
-
+    
     func setupNavigationBar() {
         navigationItem.title = .init(localized: "settings.searchEngine.navigationTitle")
         
@@ -72,7 +71,7 @@ private extension SettingsSearchEngineViewController {
         appearance.shadowColor = .clear
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
         appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-
+        
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
@@ -80,36 +79,51 @@ private extension SettingsSearchEngineViewController {
 
 // MARK: - UITableViewDataSource
 extension SettingsSearchEngineViewController {
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         settingsSearchEngineData?.sections.count ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         settingsSearchEngineData?.sections[section].items.count ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let section = settingsSearchEngineData?.sections[indexPath.section] else {
             return UITableViewCell()
         }
-
+        
         switch section.items[indexPath.row] {
         case .automatic(let data):
             let cell = tableView.dequeueCell(withClass: SettingSwitchedCell.self, for: indexPath)
+            cell.onSwitchChanged = { [weak self] isOn in
+                guard let self else { return }
+                
+                self.settingsSearchEngineData?.sections[indexPath.section].items[indexPath.row] = .automatic(
+                    .init(text: data.text, switcherValue: isOn)
+                )
+                
+                if isOn {
+                    presenter.searchEngine = .google
+                    
+                    if let searchEngineIndexPaths = self.indexPathsForSearchEngineCells() {
+                        tableView.reloadRows(at: searchEngineIndexPaths, with: .none)
+                    }
+                }
+            }
             cell.render(data)
             return cell
+            
         case .searchEngine(let data):
             let cell = tableView.dequeueCell(withClass: SettingSearchEngineCell.self, for: indexPath)
             cell.render(data, userSelectedSearchEngine: presenter.searchEngine)
             return cell
         }
     }
-
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         settingsSearchEngineData?.sections[section].sectionTitle
     }
-
+    
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         settingsSearchEngineData?.sections[section].sectionDesctiption
     }
@@ -117,22 +131,54 @@ extension SettingsSearchEngineViewController {
 
 // MARK: - UITableViewDelegate
 extension SettingsSearchEngineViewController {
-
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
+        
         guard let rowType = settingsSearchEngineData?.sections[indexPath.section].items[indexPath.row] else { return }
-
+        
         if case .searchEngine(let data) = rowType {
             presenter.searchEngine = data.searchEngine
             
-            tableView.visibleCells.forEach { cell in
-                if let searchCell = cell as? SettingSearchEngineCell,
-                   let cellIndexPath = tableView.indexPath(for: searchCell),
-                   case .searchEngine(let item) = settingsSearchEngineData?.sections[cellIndexPath.section].items[cellIndexPath.row] {
-                    searchCell.setChecked(item.searchEngine == presenter.searchEngine)
+            if let autoIndexPath = indexPathForAutomaticCell(),
+               case .automatic(let switchData) = settingsSearchEngineData?.sections[autoIndexPath.section].items[autoIndexPath.row] {
+                settingsSearchEngineData?.sections[autoIndexPath.section].items[autoIndexPath.row] = .automatic(
+                    .init(text: switchData.text, switcherValue: false)
+                )
+                tableView.reloadRows(at: [autoIndexPath], with: .none)
+            }
+            
+            if let searchEngineIndexPaths = indexPathsForSearchEngineCells() {
+                tableView.reloadRows(at: searchEngineIndexPaths, with: .none)
+            }
+        }
+    }
+}
+
+// MARK: - Helpers
+private extension SettingsSearchEngineViewController {
+    func indexPathForAutomaticCell() -> IndexPath? {
+        guard let sections = settingsSearchEngineData?.sections else { return nil }
+        for (sectionIndex, section) in sections.enumerated() {
+            if let rowIndex = section.items.firstIndex(where: {
+                if case .automatic = $0 { return true }
+                return false
+            }) {
+                return IndexPath(row: rowIndex, section: sectionIndex)
+            }
+        }
+        return nil
+    }
+    
+    func indexPathsForSearchEngineCells() -> [IndexPath]? {
+        guard let sections = settingsSearchEngineData?.sections else { return nil }
+        var indexPaths: [IndexPath] = []
+        for (sectionIndex, section) in sections.enumerated() {
+            for (rowIndex, item) in section.items.enumerated() {
+                if case .searchEngine = item {
+                    indexPaths.append(IndexPath(row: rowIndex, section: sectionIndex))
                 }
             }
         }
+        return indexPaths.isEmpty ? nil : indexPaths
     }
 }
