@@ -11,6 +11,7 @@ protocol UserDefaultsState {
     var hasBeenLaunchedBefore: Bool { get set }
     var isOnboardingCompleted: Bool { get set }
     var selectedSearchEngine: SearchEngine { get set }
+    var accentColorHex: String? { get set }
 }
 
 final class UserDefaultsStateImplementation: UserDefaultsState {
@@ -25,12 +26,17 @@ final class UserDefaultsStateImplementation: UserDefaultsState {
 
     var selectedSearchEngine: SearchEngine {
         get {
-            if let raw = UserDefaults.standard.string(forKey: .selectedSearchEngine),
-               let se  = SearchEngine(rawValue: raw) { return se }
-            return .google                // дефолт
+            if let value = UserDefaults.standard.string(forKey: .selectedSearchEngine),
+               let searchEngine  = SearchEngine(rawValue: value) { return searchEngine }
+            return .google
         }
         set { UserDefaults.standard.setValue(newValue.rawValue, forKey: .selectedSearchEngine) }
     }
+    
+    var accentColorHex: String? {
+            get { UserDefaults.standard.string(forKey: .accentColor) }
+            set { UserDefaults.standard.set(newValue, forKey: .accentColor) }
+        }
 }
 
 // MARK: - UserDefaults Keys
@@ -38,4 +44,5 @@ private extension String {
     static let hasBeenLaunchedBefore = "hasBeenLaunchedBefore"
     static let onboardingCompleted = "onboardingCompleted"
     static let selectedSearchEngine = "selectedSearchEngine"
+    static let accentColor = "accentColor"
 }

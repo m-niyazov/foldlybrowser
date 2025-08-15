@@ -40,4 +40,8 @@ extension NSNotification.Name {
     static var webViewDidScroll: NSNotification.Name {
         NSNotification.Name(rawValue: "webViewDidScroll")
     }
+    
+    static var accentColorDidChange: NSNotification.Name {
+        NSNotification.Name(rawValue: "accentColorDidChange")
+    }
 }
