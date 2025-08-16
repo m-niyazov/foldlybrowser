@@ -8,9 +8,11 @@
 import Foundation
 import XCoordinator
 import ApphudSDK
+import UIKit
 
 protocol SplashPresenterProtocol: AnyObject {
     func checkUserStatus()
+    func applyAccentColor()
 }
 
 final class SplashPresenter: SplashPresenterProtocol {
@@ -118,6 +120,14 @@ final class SplashPresenter: SplashPresenterProtocol {
     func setUserIdentify(firebaseUUID: String) {
         analyticService.setUserIdentify(key: "firebase-uuid", value: firebaseUUID)
         Apphud.setUserProperty(key: .init("firebase-uuid"), value: firebaseUUID)
+    }
+    
+    func applyAccentColor() {
+        if let hexColor = applicationState.accentColorHex,
+           let color = UIColor(hex: hexColor) {
+            UIView.appearance(whenContainedInInstancesOf: [UIButton.self]).tintColor = color
+            UIView.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = color
+        }
     }
 }
 

@@ -70,6 +70,12 @@ private extension SettingsPresenter {
             sectionDesctiption: .init(localized: "settings.app.section.description"),
             items: [
                 .settingCell(makeCell(
+                    title: "settings.appearance",
+                    icon: "paintbrush",
+                    color: UIColor.purple,
+                    action: settingsAppearanceTapped)
+                ),
+                .settingCell(makeCell(
                     title: "settings.searchEngine",
                     icon: "magnifyingglass",
                     color: UIColor.systemYellow,
@@ -132,6 +138,10 @@ private extension SettingsPresenter {
 private extension SettingsPresenter {
     func authProSectionTapped() {
         
+    }
+    
+    func settingsAppearanceTapped() {
+        router.trigger(.settingsAppearance)
     }
     
     func settingsSearchEngineTapped() {

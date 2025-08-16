@@ -14,6 +14,7 @@ enum SettingsRoute: Route {
     case settingsPassword
     case settingsAboutApp
     case settingsLanguages
+    case settingsAppearance
     case telegram
     case email
     case paywall
@@ -52,6 +53,9 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
         case .settingsLanguages:
             settingsLanguages()
             return .none()
+        case .settingsAppearance:
+            let settingsAppearance = settingsAppearance()
+            return .push(settingsAppearance)
         case .telegram:
             let supportTelegram = AppConstants.supportTelegram
             guard let url = URL(string: supportTelegram)
@@ -106,6 +110,16 @@ final class SettingsCoordinator: NavigationCoordinator<SettingsRoute> {
             analyticService: dependencies.analyticService
         )
         return settingsPassword
+    }
+    
+    
+    private func settingsAppearance() -> UIViewController {
+        let settingsAppearance = SettingsAppearanceBuilder.build(
+            router: weakRouter,
+            applicationState: dependencies.userDefaultState,
+            analyticService: dependencies.analyticService
+        )
+        return settingsAppearance
     }
     
     private func settingsAboutApp() -> UIViewController {

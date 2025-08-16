@@ -1,5 +1,5 @@
 //
-//  SettingsSearchEngineProps.swift
+//  SettingsAppearanceProps.swift
 //  foldlybrowser
 //
 //  Created by Karpinskii.D.S. on 26.07.2025.
@@ -7,28 +7,29 @@
 
 import UIKit
 
-struct SettingsSearchEngineProps {
+struct SettingsAppearanceProps {
     var sections: [Section]
-
+    
     struct Section {
         let sectionTitle: String
         let sectionDesctiption: String
         let items: [Items]
     }
-
+    
     enum Items {
-        case automatic(SettingSwitcherCell)
-        case searchEngine(SettingSearchEngineCell)
-    }
-
-    struct SettingSwitcherCell {
-        let text: String
-        let switched: () -> Void
+        case appearance(SettingAppearanceCell)
+        case color(SettingColorCell)
     }
     
-    struct SettingSearchEngineCell {
-        let searchEngine: SearchEngine
+    struct SettingAppearanceCell {
+        let text: String
+        let select: () -> Void
+    }
+    
+    struct SettingColorCell {
+        let text: String
         let color: UIColor
         let isSelected: Bool
+        let select: () -> Void
     }
 }

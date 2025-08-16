@@ -15,6 +15,7 @@ protocol SettingsSearchEnginePresenterProtocol: AnyObject {
 }
 
 final class SettingsSearchEnginePresenter: SettingsSearchEnginePresenterProtocol {
+    
     var searchEngine: SearchEngine {
         get { applicationState.selectedSearchEngine }
         set { applicationState.selectedSearchEngine = newValue }
@@ -48,6 +49,11 @@ final class SettingsSearchEnginePresenter: SettingsSearchEnginePresenterProtocol
         ]
         view?.render(SettingsSearchEngineProps(sections: sections))
     }
+    
+    func setSearchEngine(searchEngine: SearchEngine) {
+        self.searchEngine = searchEngine
+        
+    }
 }
 
 // MARK: - Private: Sections factory
@@ -60,8 +66,8 @@ private extension SettingsSearchEnginePresenter {
             items: [
                 .automatic(makeAppearanceCell(
                     title: "settings.searchEngine.automatic",
-                    action: automaticSwithced)
-                )
+                    switcherValue: applicationState.selectedSearchEngine == .google
+                ))
             ]
         )
     }
@@ -97,10 +103,10 @@ private extension SettingsSearchEnginePresenter {
         )
     }
 
-    func makeAppearanceCell(title: LocalizedStringResource, action: @escaping () -> Void) -> SettingsSearchEngineProps.SettingSwitcherCell {
+    func makeAppearanceCell(title: LocalizedStringResource, switcherValue: Bool) -> SettingsSearchEngineProps.SettingSwitcherCell {
         return SettingsSearchEngineProps.SettingSwitcherCell(
             text: .init(localized: title),
-            switched: action
+            switcherValue: switcherValue
         )
     }
     
@@ -110,12 +116,5 @@ private extension SettingsSearchEnginePresenter {
             color: color,
             isSelected: isSelected
         )
-    }
-}
-
-// MARK: - Actions
-private extension SettingsSearchEnginePresenter {
-    func automaticSwithced() {
-        
     }
 }

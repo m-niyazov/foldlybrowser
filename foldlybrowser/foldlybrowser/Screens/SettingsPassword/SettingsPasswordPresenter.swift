@@ -51,6 +51,7 @@ private extension SettingsPasswordPresenter {
             items: [
                 .settingPasswordCell(makePasswordCell(
                     title: "settings.password.authorization",
+                    switcherValue: false,
                     action: protectionSwithced)
                 )
             ]
@@ -61,6 +62,7 @@ private extension SettingsPasswordPresenter {
                 items: [
                     .settingPasswordCell(makePasswordCell(
                         title: "settings.password.allowWidgets",
+                        switcherValue: false,
                         action: widgetsSwithced)
                     )
                 ]
@@ -68,10 +70,10 @@ private extension SettingsPasswordPresenter {
          ]
     }
 
-    func makePasswordCell(title: LocalizedStringResource, action: @escaping () -> Void) -> SettingPropsPasswordCell {
+    func makePasswordCell(title: LocalizedStringResource, switcherValue: Bool, action: @escaping () -> Void) -> SettingPropsPasswordCell {
         return SettingPropsPasswordCell(
             text: .init(localized: title),
-            switched: action
+            switcherValue: switcherValue
         )
     }
 }
