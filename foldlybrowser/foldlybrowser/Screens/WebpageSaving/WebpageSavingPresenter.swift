@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import FaviconFinder
 import XCoordinator
+import UIKit
 
 protocol WebpageSavingPresenterProtocol: AnyObject {
+    func getData()
 }
 
 final class WebpageSavingPresenter: WebpageSavingPresenterProtocol {
@@ -17,19 +20,40 @@ final class WebpageSavingPresenter: WebpageSavingPresenterProtocol {
 
     private weak var view: WebpageSavingViewControllerProtocol?
     private let router: WeakRouter<HomeRoute>
-    private let url: URL
+    private let webPageUrl: URL
+    private let webPageTitle: String
     private let userDefaultState: UserDefaultsState
 
     // MARK: - Initialize
 
     init(view: WebpageSavingViewControllerProtocol,
          router: WeakRouter<HomeRoute>,
-         url: URL,
+         webPageUrl: URL,
+         webPageTitle: String,
          userDefaultState: UserDefaultsState) {
         self.view = view
         self.router = router
-        self.url = url
+        self.webPageUrl = webPageUrl
+        self.webPageTitle = webPageTitle
         self.userDefaultState = userDefaultState
+    }
+
+    func getData() {
+        view?.render(url: webPageUrl.absoluteString, title: webPageTitle)
+        Task {
+            if let icon = await FaviconFetcher.fetchIcon(for: webPageUrl) {
+                self.view?.setFavicon(image: icon)
+            }
+        }
+
+//        let favicon = try await FaviconFinder(url: webPageUrl)
+//            .fetchFaviconURLs()
+//            .download()
+//            .largest()
+//
+//        let faviconImage = favicon.image as? UIImage
+//        print("EFWEF\(faviconImage)")
+//        view?.setFavicon(image: (favicon.image as? UIIM))
     }
 }
 

@@ -12,7 +12,7 @@ import XCoordinator
 enum HomeRoute: Route {
     case home
     case webpage(requestString: String)
-    case webpageSaving(url: URL)
+    case webpageSaving(url: URL, title: String)
     case dismissWebpage
     case paywall
     case alert(Alert)
@@ -47,8 +47,8 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
             return .embed(
                 webpage, in: (rootViewController.visibleViewController as? HomeViewController)!.webPageContainerView
             )
-        case .webpageSaving(let url):
-            let webPageSaving = webpageSaving(url: url)
+        case .webpageSaving(let url, let title):
+            let webPageSaving = webpageSaving(url, title: title)
             return .present(webPageSaving)
         case .dismissWebpage:
             embeddedWebpageController?.willMove(toParent: nil)
@@ -82,11 +82,12 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
         )
     }
 
-    private func webpageSaving(url: URL) -> UIViewController {
+    private func webpageSaving(_ url: URL, title: String) -> UIViewController {
         return UINavigationController(
             rootViewController: WebpageSavingBuilder.build(
                 router: weakRouter,
-                url: url,
+                webPageUrl: url,
+                webPageTitle: title,
                 userDefaultState: dependencies.userDefaultState
         ))
     }

@@ -12,14 +12,16 @@ final class WebpageSavingBuilder {
     
     static func build(
         router: WeakRouter<HomeRoute>,
-        url: URL,
+        webPageUrl: URL,
+        webPageTitle: String,
         userDefaultState: UserDefaultsState
     ) -> WebpageSavingViewController {
         let view = WebpageSavingViewController()
         let presenter = WebpageSavingPresenter(
             view: view,
             router: router,
-            url: url,
+            webPageUrl: webPageUrl,
+            webPageTitle: webPageTitle,
             userDefaultState: userDefaultState
         )
 

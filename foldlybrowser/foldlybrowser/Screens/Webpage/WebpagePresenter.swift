@@ -113,10 +113,10 @@ private extension WebpagePresenter {
     }
 
     @objc func didTapSavePage() {
-        guard let url = view?.webView.url else {
+        guard let url = view?.webView.url, let title = view?.webView.title else {
             return
         }
-        router.trigger(.webpageSaving(url: url))
+        router.trigger(.webpageSaving(url: url, title: title))
     }
 
     @objc func didTapSearchWhileWebviewActive(_ notification: Notification) {
