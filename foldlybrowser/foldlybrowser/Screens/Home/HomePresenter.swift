@@ -135,6 +135,11 @@ final class HomePresenter: HomePresenterProtocol {
     }
 
     func didTapSavePage() {
+        NotificationCenter.default.post(
+            name: .didTapSavePage,
+            object: nil,
+            userInfo: nil
+        )
     }
 
     func didTapHome() {

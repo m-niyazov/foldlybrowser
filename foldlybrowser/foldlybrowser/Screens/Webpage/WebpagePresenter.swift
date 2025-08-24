@@ -87,6 +87,13 @@ private extension WebpagePresenter {
             name: .didTapSearchWhileWebviewActive,
             object: nil
         )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didTapSavePage),
+            name: .didTapSavePage,
+            object: nil
+        )
     }
 
     func removeObservers() {
@@ -103,6 +110,13 @@ private extension WebpagePresenter {
 
     @objc func didTapMoveRefreshPage() {
         view?.webView.reload()
+    }
+
+    @objc func didTapSavePage() {
+        guard let url = view?.webView.url else {
+            return
+        }
+        router.trigger(.webpageSaving(url: url))
     }
 
     @objc func didTapSearchWhileWebviewActive(_ notification: Notification) {

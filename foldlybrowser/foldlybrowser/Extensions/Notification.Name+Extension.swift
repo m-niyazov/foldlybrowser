@@ -9,9 +9,6 @@ import Foundation
 import UIKit
 
 extension NSNotification.Name {
-    static var subscribedFromSettings: NSNotification.Name {
-        NSNotification.Name(rawValue: "subscribedFromSettings")
-    }
 
     static var didTapMoveBackPage: NSNotification.Name {
         NSNotification.Name(rawValue: "didTapMoveBackPage")
@@ -25,12 +22,16 @@ extension NSNotification.Name {
         NSNotification.Name(rawValue: "didTapMoveRefreshdPage")
     }
 
-    static var webpageDidUpdateProgress: NSNotification.Name {
-        NSNotification.Name(rawValue: "webpageDidUpdateProgress")
-    }
-
     static var didTapSearchWhileWebviewActive: NSNotification.Name {
         NSNotification.Name(rawValue: "didTapSearchWhileWebviewActive")
+    }
+
+    static var didTapSavePage: NSNotification.Name {
+        NSNotification.Name(rawValue: "didTapSavePage")
+    }
+
+    static var webpageDidUpdateProgress: NSNotification.Name {
+        NSNotification.Name(rawValue: "webpageDidUpdateProgress")
     }
     
     static var webpageDidUpdateURL: NSNotification.Name {
