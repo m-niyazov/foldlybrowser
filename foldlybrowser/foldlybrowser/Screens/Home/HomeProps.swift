@@ -48,19 +48,24 @@ struct HomeProps {
     enum MainTappableItem {
         case folder(MainTappableItemFolder)
         case website(MainTappableItemWebsite)
-        case addNew
+        case addNew(AddNew)
 
         struct MainTappableItemFolder {
             let id: String
             let name: String
-            let emoji: String?
+            let itemsCount: Int
+            let select: (_ folderId: String) -> Void
         }
 
         struct MainTappableItemWebsite {
             let id: String
             let name: String
             let thumbnailURL: String
-            let folderId: String?
+            let select: (_ siteId: String) -> Void
+        }
+
+        struct AddNew {
+            let select: () -> Void
         }
     }
 

@@ -59,7 +59,24 @@ final class ExploreViewDataProvider: NSObject, UICollectionViewDataSource, UICol
             return
         }
         let sectionType = props.sections[indexPath.section].type
-        let cell = collectionView.cellForItem(at: indexPath)
+        switch sectionType {
+        case .sectionTitle:
+            print("")
+        case .header:
+            print("")
+        case .searchTrends:
+            print("")
+        case .mainTappableItems(let data):
+            switch data[indexPath.row] {
+            case .folder(let folder):
+                folder.select(folder.id)
+            case .website(let website):
+                website.select(website.id)
+            case .addNew(let addNew):
+                addNew.select()
+            }
+        }
+//        let cell = collectionView.cellForItem(at: indexPath)
 
     }
 

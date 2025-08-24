@@ -160,8 +160,8 @@ private extension HomeView {
     }
 
     func сreateFoldersSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(70),
-                                             heightDimension: .absolute(105))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(1),
+                                             heightDimension: .estimated(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
