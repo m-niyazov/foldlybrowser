@@ -49,20 +49,21 @@ final class HomePresenter: HomePresenterProtocol {
                     select: nil)
                 )),
                 .init(type: .mainTappableItems([
-                    .folder(.init(id: "f1", name: "Read Later", emoji: "📚")),
-                    .website(.init(id: "s1", name: "Apple", thumbnailURL: "", folderId: nil)),
-                    .addNew
-                    //                .init(id: "3", name: "Work", emoji: "💼"),
+                    .folder(
+                        .init(
+                            id: "f1",
+                            name: "Read Later",
+                            itemsCount: 0,
+                            select: didTapFolder
+                        )
+                    ),
+                    .addNew(.init(select: didTapAddNew))
+                    // .website(.init(id: "s1", name: "Apple", thumbnailURL: "", folderId: nil)),
+                    //              .init(id: "3", name: "Work", emoji: "💼"),
                     //                .init(id: "4", name: "Movies", emoji: "🎥"),
                     //                .init(id: "5", name: "18+", emoji: "🔞"),
                     //                .init(id: "6", name: "Personal", emoji: "👮🏻‍♂️"),
-                ])),
-                .init(type: .sectionTitle(.init(
-                    title: "Imported",
-                    subtitle: "Shared packs you’ve added",
-                    buttontype: .importFolder,
-                    select: nil))
-                     )],
+                ]))],
             bottomSearchBar: .init(
                 isWebviewActive: false,
                 selectedSearchEngine: userDefaultState.selectedSearchEngine,
@@ -80,6 +81,14 @@ final class HomePresenter: HomePresenterProtocol {
         )
         self.props = props
         view?.render(props)
+    }
+
+    func didTapAddNew() {
+//        print("\(folderId)")
+    }
+
+    func didTapFolder(_ folderId: String) {
+        print("\(folderId)")
     }
 
     func didTapSettings() {
@@ -126,6 +135,11 @@ final class HomePresenter: HomePresenterProtocol {
     }
 
     func didTapSavePage() {
+        NotificationCenter.default.post(
+            name: .didTapSavePage,
+            object: nil,
+            userInfo: nil
+        )
     }
 
     func didTapHome() {

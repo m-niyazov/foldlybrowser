@@ -136,7 +136,7 @@ final class HomeBottomSearchBar: UIView {
 private extension HomeBottomSearchBar {
 
     func setupView() {
-        backgroundColor = .none
+        backgroundColor = .white
 
         contentView.do {
             $0.backgroundColor = .none

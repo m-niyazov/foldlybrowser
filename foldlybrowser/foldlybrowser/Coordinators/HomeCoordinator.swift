@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import Foundation
 import XCoordinator
 
 enum HomeRoute: Route {
     case home
     case webpage(requestString: String)
+    case webpageSaving(url: URL, title: String)
     case dismissWebpage
     case paywall
     case alert(Alert)
@@ -45,6 +47,9 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
             return .embed(
                 webpage, in: (rootViewController.visibleViewController as? HomeViewController)!.webPageContainerView
             )
+        case .webpageSaving(let url, let title):
+            let webPageSaving = webpageSaving(url, title: title)
+            return .present(webPageSaving)
         case .dismissWebpage:
             embeddedWebpageController?.willMove(toParent: nil)
             embeddedWebpageController?.view.removeFromSuperview()
@@ -76,7 +81,18 @@ final class HomeCoordinator: NavigationCoordinator<HomeRoute> {
             userDefaultState: dependencies.userDefaultState
         )
     }
-    
+
+    private func webpageSaving(_ url: URL, title: String) -> UIViewController {
+        return UINavigationController(
+            rootViewController: WebpageSavingBuilder.build(
+                router: weakRouter,
+                webPageUrl: url,
+                webPageTitle: title,
+                userDefaultState: dependencies.userDefaultState
+        ))
+    }
+
+
     private func settingsCoordinator() -> SettingsCoordinator {
         let settings = SettingsCoordinator(dependencies: dependencies)
         return settings
